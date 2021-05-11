@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Title</title>
+
 </head>
 <body>
+<div class="row" id = "container">
+
+    <div class="col-2">
+        <div class="row">
+            <p>SCHEDULER</p>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light">Home</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light">New task</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light">Profile</button>
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="row">
+            <p></p>
+        </div>
+        <div id="search" class="row">
+            <input type = "text" name = "username" placeholder="Search Activity">
+        </div>
+        <div class="row" id = "mainbuttons">
+            <ul>
+                <li><button type="button" class="btn btn-light">Current Events</button></li>
+                <li><button type="button" class="btn btn-light">Upcoming Events</button></li>
+                <li><button type="button" class="btn btn-light">Completed Events</button></li>
+            </ul>
+
+
+<!--            <button type="button" class="btn btn-light">Home</button>-->
+<!--            <button type="button" class="btn btn-light">Home</button>-->
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

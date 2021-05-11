@@ -1,0 +1,11 @@
+#mainbuttons{
+    position: absolute;
+    left: 40%;
+    margin-top: 30%;
+
+}
+
+#mainbuttons ul li {
+    list-style-type: none;
+    padding: 5px;
+}
