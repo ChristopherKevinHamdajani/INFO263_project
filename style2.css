@@ -1,0 +1,13 @@
+#search input {
+    width: 100%;
+}
+
+.col-10.row button.dropdown{
+    float: right;
+}
+
+#container{
+    width: 90%;
+    height: 400px;
+    margin: auto;
+}

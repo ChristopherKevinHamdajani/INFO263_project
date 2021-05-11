@@ -1,0 +1,39 @@
+
+/*.loginbox*/
+/*{*/
+/*    margin: 15% auto 15% auto; !* 15% from the top, 15% from the bottom and centered *!*/
+/*    border: 1px solid #888;*/
+/*    width: 30%; !* Could be more or less, depending on screen size *!*/
+/*}*/
+/*.container{*/
+/*    margin: auto 25% auto 25%;*/
+/*}*/
+/*.loginbox input{*/
+/*    text-align: center;*/
+/*    width: 250px;*/
+/*}*/
+
+/*.loginbox button{*/
+/*    align-items: center;*/
+/*    width: 250px;*/
+.loginbox{
+    background: aquamarine;
+    padding: 10px 5px 10px 5px;
+}
+
+.loginbox input{
+    margin: 5px 5px 5px 5px;
+}
+
+.box{
+    width: 90%;
+    height: 400px;
+    margin: auto;
+}
+
+.row{
+    margin: 175px;
+    /*margin-bottom: auto;*/
+    /*margin-top: 100px;*/
+
+}
