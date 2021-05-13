@@ -16,19 +16,33 @@
 /*.loginbox button{*/
 /*    align-items: center;*/
 /*    width: 250px;*/
+
+
 .loginbox{
-    background: aquamarine;
+    background: aliceblue;
     padding: 10px 5px 10px 5px;
+    border-radius: 10px;
+    box-shadow: 5px 5px darkgray;
+    padding: 15px;
+    width: 300px;
 }
 
 .loginbox input{
-    margin: 5px 5px 5px 5px;
+    margin: 10px 10px 10px 10px;
 }
 
 .box{
     width: 90%;
     height: 400px;
     margin: auto;
+}
+
+
+
+input {
+    border-radius: 10px;
+    width: 90%;
+    text-align: center;
 }
 
 .row{
