@@ -1,4 +1,4 @@
-#mainbuttons{
+/*#mainbuttons{
     position: absolute;
     left: 40%;
     margin-top: 30%;
@@ -7,5 +7,63 @@
 
 #mainbuttons ul li {
     list-style-type: none;
+    padding: 5px;
+}
+
+*/
+
+.box{
+    background-color: red;
+    border: 5px solid black;
+    height: 800px;
+}
+li {
+    text-decoration: None;
+}
+
+.navbar-nav{
+    padding: 60px;
+}
+
+h3 {
+    margin: auto;
+}
+
+.col-2 {
+    height: 100vh;
+    background-color: #5bc0de;
+    border-radius: 5px;
+}
+
+.col-10 {
+    background-color: #C9ECE9;
+}
+
+
+.search {
+    margin: 0 auto;
+    width: 90%;
+    box-shadow: 5px 5px 4px #888888;
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+.option {
+    margin: auto;
+    display: block;
+    padding-top: 300px;
+}
+
+.events{
+    padding: 5px;
+    text-decoration: none;
+}
+
+hr {
+    width: 100%;
+    height: 1px;
+    color: black;
     padding: 5px;
 }

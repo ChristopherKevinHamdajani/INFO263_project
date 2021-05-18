@@ -12,41 +12,54 @@
 
 </head>
 <body>
-<div class="row" id = "container">
+<div class="container-fluid">
+    <div class="row">
 
-    <div class="col-2">
-        <div class="row">
-            <p>SCHEDULER</p>
+        <div class="col-2 bg-info">
+            <div class="row">
+                <h3>SCHEDULER</h3>
+                <hr>
+            </div>
+            <div class="row">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">New Task</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+
+            </div>
         </div>
-        <div class="row">
-            <button type="button" class="btn btn-light">Home</button>
-        </div>
-        <div class="row">
-            <button type="button" class="btn btn-light">New task</button>
-        </div>
-        <div class="row">
-            <button type="button" class="btn btn-light">Profile</button>
+        <div class="col-10">
+            <div class="row">
+                <p></p>
+            </div>
+            <input type = "text" name = "username" placeholder="Search Activity" class="search">
+            <div class="row" id = "mainbuttons">
+                <ul class="option">
+                    <li class="events">
+                        <a href="#"><button type="button" class="btn btn-light">Current Events</button></a>
+                    </li>
+                    <li class="events">
+                        <a href="#"><button type="button" class="btn btn-light">Upcoming Events</button></a>
+                    </li>
+                    <li class="events">
+                        <a href="#"><button type="button" class="btn btn-light">Completed Events</button></a>
+                    </li>
+                </ul>
+
+
+                <!--            <button type="button" class="btn btn-light">Home</button>-->
+                <!--            <button type="button" class="btn btn-light">Home</button>-->
+            </div>
         </div>
     </div>
-    <div class="col-10">
-        <div class="row">
-            <p></p>
-        </div>
-        <div id="search" class="row">
-            <input type = "text" name = "username" placeholder="Search Activity">
-        </div>
-        <div class="row" id = "mainbuttons">
-            <ul>
-                <li><button type="button" class="btn btn-light">Current Events</button></li>
-                <li><button type="button" class="btn btn-light">Upcoming Events</button></li>
-                <li><button type="button" class="btn btn-light">Completed Events</button></li>
-            </ul>
 
-
-<!--            <button type="button" class="btn btn-light">Home</button>-->
-<!--            <button type="button" class="btn btn-light">Home</button>-->
-        </div>
-    </div>
 </div>
 
 </body>
