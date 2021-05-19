@@ -2,76 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.editorconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.npmignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/Gruntfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/bower.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/icons-2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/icons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/jsgrid.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/theme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/basic.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/batch-delete.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-grid-field.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-load-indicator.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-row-renderer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-view.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/data-manipulation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/db.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/demos.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/external-pager.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/loading-by-page.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/localization.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/odata-service.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/rows-reordering.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/sorting.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/static-data.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/validation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/jquery/jquery-1.8.3.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/qunit/qunit-1.10.0.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/qunit/qunit-1.10.0.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.checkbox.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.control.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.number.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.select.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.text.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.textarea.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/de.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/es.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/fr.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/he.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ja.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ka.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pt-br.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ru.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/tr.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/zh-cn.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/zh-tw.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.core.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.field.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.load-indicator.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.load-strategies.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.sort-strategies.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.validation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.field.tests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.sort-strategies.tests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.tests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.validation.tests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newEvent.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newEvent.html" beforeDir="false" afterPath="$PROJECT_DIR$/newEvent.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +75,7 @@
       <workItem from="1620690045826" duration="3062000" />
       <workItem from="1620722635669" duration="77000" />
       <workItem from="1620900707284" duration="1877000" />
-      <workItem from="1621373956562" duration="12364000" />
+      <workItem from="1621373956562" duration="13237000" />
     </task>
     <servers />
   </component>
