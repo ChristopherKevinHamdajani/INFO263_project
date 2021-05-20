@@ -1,66 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style3.css">
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <script type="text/javascript" src="javascript.js"></script>
+
     <title>Title</title>
 
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
 
-        <div class="col-2 bg-info">
-            <div class="row">
-                <h3>SCHEDULER</h3>
-                <hr>
+<div id="page"  class="container-lg">
+    <div class="jumbotron text-center">
+        <h1>Event Scheduler</h1>
+    </div>
+    <nav nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="mainscreen.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="newEvent.html">New task</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profile</a>
+                </li>
+            </ul>
+
+            <div class="searchInput">
+                <input id="searchBar" type="text" placeholder="Search..">
+                <div id="searchResults">
+                </div>
             </div>
-            <div class="row">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">New Task</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                </ul>
+
+        </div>
+
+    </nav>
+
+
+    <script>
+        $("#searchBar").keypress(function(){
+            if ($('#searchBar').val() == ""){
+                $("#searchResults").slideUp();
+                $('#searchResults').html(function () {
+                    return ""
+                })
+            } else{
+                let data = {'command':'searchString','string' : $('#searchBar').val()} // THis is the text in the search bar
+                $.post("server.php", data, function(data){
+                    let obj = JSON.parse(data);
+                    $('#searchResults').html(function () { //updates the html within the search list
+                        let listArray = new Set();  //Creates a set
+                        for (let i = 0; i < obj.length; i++){
+                            listArray.add(obj[i].event_name); // adds all the results to the set to remove duplicates
+                        }
+                        let list = ""
+
+                        //$('#loadingIcon').hide() // Hides the loading Icon
+                        //$('#searchSuggestionOptions').css({'justify-content' : 'start'}) //Moves the results up to the top
+
+                        listArray.forEach((value, key) => {
+                            list += "<li>"+ key + "</li>"
+                        })
+
+
+                        return list
+                    })
+                    $("#searchResults").slideDown();
+                })
+            }
+        })
+
+    </script>
+
+
+    <div id="container" class="container" >
+
+        <div id="eventNumberContainer" class="row">
+            <div class="col">
+                <div class="container row">
+                    <div class="col">3</div>
+                    <button class="col">All events</button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container row">
+                    <div class="col">3</div>
+                    <button class="col">All events</button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container row">
+                    <div class="col">3</div>
+                    <button class="col">All events</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input class="col-4" type="date" id="startDate">
+            <input class="col-4" type="date" id="endDate">
+            <button id="searchDateButton" class="col-4">Go</button>
+        </div>
+        <div class="row">
+            <div class="col" id="mainTable">
+                <script>getEvents()</script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="otherTable">
 
             </div>
         </div>
-        <div class="col-10">
-            <div class="row">
-                <p></p>
-            </div>
-            <input type = "text" name = "username" placeholder="Search Activity" class="search">
-            <div class="row" id = "mainbuttons">
-                <ul class="option">
-                    <li class="events">
-                        <a href="#"><button type="button" class="btn btn-light">Current Events</button></a>
-                    </li>
-                    <li class="events">
-                        <a href="#"><button type="button" class="btn btn-light">Upcoming Events</button></a>
-                    </li>
-                    <li class="events">
-                        <a href="#"><button type="button" class="btn btn-light">Completed Events</button></a>
-                    </li>
-                </ul>
 
 
-                <!--            <button type="button" class="btn btn-light">Home</button>-->
-                <!--            <button type="button" class="btn btn-light">Home</button>-->
-            </div>
-        </div>
+
     </div>
 
 </div>
+<script>
+
+
+
+    //function createOtherTable(){
+    //    let tableFields = [
+    //        {name:"eventId", title:"Id", type : "number", width: 20},
+    //        {name:"eventName", title: "Name", type: "text", width: 200},
+    //        {name:"date", title:"Date", type:"select", width:70},
+    //        {name:"clientGroup", title:"Cluster", type:"text", width:70},
+    //        {name:"time", title: "Time", type: "text"},
+    //        {name:"clientConfiguration", title: "Activate", type: "text"}
+    //    ];
+//
+    //    $("#otherTable").jsGrid({
+    //        width: "90%",
+    //        height: "700px",
+    //        inserting: false,
+    //        editing: false,
+    //        sorting: true,
+    //        paging: false,
+    //        fields: tableFields
+    //    })
+//
+//
+//
+    //}
+//
+//
+    //class event{
+//
+    //    constructor(id, eventName) {
+    //        this.eventId = id;
+    //        this.eventName = eventName;
+    //        this.date = [];
+    //    }
+//
+    //    eventId(){
+    //        return this.eventId;
+    //    }
+//
+//
+    //    setClientConfiguration (clusterArray){
+    //        this.clientConfiguration = clusterArray;
+    //    }
+//
+    //    setClientGroup(group){
+    //        this.clientGroup = group;
+    //    }
+//
+//
+    //}
+
+    //function createObjects(){
+    //    //get event Id
+    //    //from eventId get the cluster id ad cluster group
+    //    //from eventId get machine id and machine group
+    //    //get date
+    //    //get time
+    //    // get active
+//
+    //    let data = {'command' : 'getAllEventId'}
+    //    let objArray = [];
+    //    //Creates the Event Objects initialized with event_id and event_name
+    //    $.post('server.php', data, function(data){
+    //        let obj = JSON.parse(data);
+//
+    //        obj.forEach(element => {
+    //            let eventId = element['event_id']
+    //            let eventName = element['event_name']
+    //            objArray.push(new event(eventId, eventName))
+    //        })
+    //        objArray.forEach(event =>{
+    //            data = {'command' : 'getClusterEventFromId', 'event_id': event.eventId}
+    //            $.post("server.php", data, function(returnData){
+    //                let eventClusterArray = [];
+    //                let obj = JSON.parse(returnData)
+    //                obj.forEach(eventCluster => {
+    //                    let clusterId = eventCluster["cluster_id"];
+    //                    let clusterStatus = eventCluster["cluster_status"]
+    //                    let cluster_offset = eventCluster["time_offset"]
+    //                    eventClusterArray.push([clusterId, clusterStatus, cluster_offset])
+    //                })
+    //                event.setClientConfiguration(eventClusterArray)
+//
+    //            })
+//
+    //            $.post("server.php", {'command' : 'getClientGroupFromId', 'event_id': event.eventId}, function(returnData){
+    //                let obj = JSON.parse(returnData);
+    //                let arrayOfClients = [];
+    //                obj.forEach(client => {
+    //                    arrayOfClients.push(client["machine_group"])
+    //                })
+    //                event.setClientGroup(arrayOfClients);
+    //            })
+//
+//
+    //            $.post("server.php", {'command' : 'getEventDate', 'event_id': event.eventId}, function(returnData){
+    //                let obj = JSON.parse(returnData);
+    //                let eventDate = [];
+    //                obj.forEach(event => {
+    //                    eventDate.push(event["date"])
+    //                    eventDate.push(event["time"])
+    //                })
+    //                event.date = eventDate;
+    //            console.log("Done first")
+    //            })
+//
+//
+//
+    //        })
+//
+    //    })
+//
+    //    setTimeout(() => {
+    //        console.log("Done second")
+    //        objArray.forEach(event=>{
+    //            event.date = "1932"
+    //            console.log(Array(event.date))
+//
+    //            $('#otherTable').jsGrid("insertItem", {eventId : event.eventId, eventName : event.eventName, date : event.date })
+    //        })
+    //    }, 5000)
+//
+//
+//
+//
+    //}
+    //createObjects()
+    //createOtherTable()
+</script>
 
 </body>
+
 </html>
