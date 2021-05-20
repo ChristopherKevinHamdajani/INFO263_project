@@ -1,5 +1,14 @@
 eventNameArray = getAllEventNames();
 
+let tableFields = [
+    {name:"event_id", title:"Id", type : "number", width: 20},
+    {name:"event_name", title: "Name", type: "text", width: 200},
+    {name:"date", title:"Date", type:"text", width:70},
+    {name:"cluster_name", title:"Cluster", type:"text", width:70},
+    {name:"time", title: "Time", type: "text"},
+    {name:"activate", title: "Activate", type: "number"}
+];
+
 
 
 function createTable(data, fields){
@@ -19,14 +28,7 @@ function getEvents(){
     let command = {'command' :'getEvents'};
     let returnArray = [];
 
-    let tableFields = [
-        {name:"event_id", title:"Id", type : "number", width: 20},
-        {name:"event_name", title: "Name", type: "text", width: 200},
-        {name:"date", title:"Date", type:"text", width:70},
-        {name:"cluster_name", title:"Cluster", type:"text", width:70},
-        {name:"time", title: "Time", type: "text"},
-        {name:"activate", title: "Activate", type: "number"}
-    ];
+
 
     $.post('server.php', command, function(data){
 
@@ -36,6 +38,26 @@ function getEvents(){
     })
 
 }
+
+$(document).on('click', '#searchDateButton', function (){
+    let startDate = $("#startDate").val()
+    let endDate = $("#endDate").val()
+    if($("#startDate").val() != ""){
+        if($("#endDate").val() != ""){
+            let command = {'command' :'getEventsOnDateToDate', 'date': $("#startDate").val()};
+
+        } else {
+            let command = {'command' :'getEventsOnDate', 'date': $("#startDate").val()};
+
+            $.post('server.php', command, function(data){
+                let obj = JSON.parse(data)
+                createTable(obj, tableFields)
+            })
+
+        }
+    }
+})
+
 
 function populateEventClusterServerCall(){
         let command = {'command': "getEventClusterList"}

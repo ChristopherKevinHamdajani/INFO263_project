@@ -82,12 +82,54 @@ function getRooms($conn)
 function getEventsOnDate($conn, $date){
     $query = "CALL get_events_on_date('$date')";
     $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
     if ($result = $conn->store_result()){
-        $resultsArray = $result->fetch_all();
+        $sqlArray = $result->fetch_all();
         $result->free();
-        return $resultsArray;
-    } else {
-        return null;
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["event_name"] = $item[0];
+            $each["cluster_name"] = $item[1];
+            $each["date"] = $item[2];
+            $each["time"] = $item[3];
+            $each["activate"] = $item[4];
+            $each["machine_group"] = $item[5];
+            $each["time_offset"] = $item[6];
+            $each["event_id"] = $item[7];
+            $each["group_id"] = $item[8];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+}
+
+function getEventsOnDateToDate($conn, $date, $endDate){
+    $query = "CALL get_events_on_date_to_date('$date', '$endDate')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["event_name"] = $item[0];
+            $each["cluster_name"] = $item[1];
+            $each["date"] = $item[2];t
+            $each["time"] = $item[3];
+            $each["activate"] = $item[4];
+            $each["machine_group"] = $item[5];
+            $each["time_offset"] = $item[6];
+            $each["event_id"] = $item[7];
+            $each["group_id"] = $item[8];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
     }
 }
 
@@ -197,8 +239,8 @@ function createFullEvent($conn, $eventId, $eventLength, $date, $time, $offset, $
     }
     insert_into_front_action($conn, $eventId, $offset, 3, 0);
     insert_into_front_action($conn, $eventId, $offset, $clusterId, 1);
-    insert_into_front_action($conn, $eventId, $time, 3, 1);
-    insert_into_front_action($conn, $eventId, $time, $clusterId, 0);
+    insert_into_front_action($conn, $eventId, $eventLength, 3, 1);
+    insert_into_front_action($conn, $eventId, $eventLength, $clusterId, 0);
 
 }
 
@@ -222,6 +264,94 @@ function getEventByStr($conn, $string) {
     }
     return $results;
 }
+
+
+function getAllEventId($conn){
+    $query = "CALL get_all_event_id()";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["event_id"] = $item[0];
+            $each["event_name"] = $item[1];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+}
+
+
+
+function getClusterAction($conn, $eventId){
+    $query = "CALL get_cluster_actions_from_id('$eventId')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["event_id"] = $item[1];
+            $each["time_offset"] = $item[2];
+            $each["cluster_id"] = $item[3];
+            $each["cluster_status"] = $item[4];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+
+}
+
+function getClientGroupFromEventId($conn, $eventId){
+    $query = "CALL get_client_group_from_event_id('$eventId')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["machine_group"] = $item[0];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+
+}
+
+function getEventDate($conn, $eventId){
+    $query = "CALL get_event_date_time('$eventId')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["date"] = $item[1];
+            $each["time"] = $item[0];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+
+}
+
 
 if (!empty(($_POST))) {
     switch ($_POST["command"]) {
@@ -254,9 +384,23 @@ if (!empty(($_POST))) {
         case "getEvents":
             echo json_encode(getAllEvents($conn));
             break;
+        case "getAllEventId":
+            echo json_encode(getAllEventId($conn));
+            break;
         case "searchString":
             echo json_encode(getEventByStr($conn, $_POST['string']));
             break;
+        case "getClusterEventFromId":
+            echo json_encode(getClusterAction($conn, $_POST['event_id']));
+            break;
+        case "getClientGroupFromId":
+            echo json_encode(getClientGroupFromEventId($conn, $_POST['event_id']));
+            break;
+        case "getEventDate":
+            echo json_encode(getEventDate($conn, $_POST['event_id']));
+            break;
+        case "getEventsOnDate":
+            echo json_encode(getEventsOnDate($conn, $_POST['date']));
     }
 }
 
