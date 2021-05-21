@@ -17,14 +17,16 @@
 /*    align-items: center;*/
 /*    width: 250px;*/
 
-
 .loginbox{
     background: aliceblue;
     padding: 10px 5px 10px 5px;
-    border-radius: 10px;
-    box-shadow: 5px 5px darkgray;
+    border-radius: 8px;
+    box-shadow: 5px 5px 4px #888888;
     padding: 15px;
-    width: 300px;
+    width: 350px;
+}
+
+body{
 }
 
 .loginbox input{
@@ -32,8 +34,8 @@
 }
 
 .box{
-    width: 90%;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     margin: auto;
 }
 
@@ -43,11 +45,24 @@ input {
     border-radius: 10px;
     width: 90%;
     text-align: center;
+    border: 5px darkgray;
 }
+
 
 .row{
     margin: 175px;
     /*margin-bottom: auto;*/
     /*margin-top: 100px;*/
 
+}
+
+style{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, darkblue 50%, #17a2b8 50%);
+}
+#a {
+    background-color: aqua;
 }
