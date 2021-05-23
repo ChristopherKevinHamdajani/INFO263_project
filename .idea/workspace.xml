@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
-
-    </list>
+    <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,9 +13,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -47,7 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DeccanStone" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -77,26 +70,18 @@
       <workItem from="1620633436120" duration="9202000" />
       <workItem from="1620690045826" duration="3062000" />
       <workItem from="1620722635669" duration="77000" />
-
       <workItem from="1620900707284" duration="1877000" />
       <workItem from="1621373956562" duration="13237000" />
       <workItem from="1621454600002" duration="15809000" />
-
+      <workItem from="1621542028241" duration="12047000" />
+      <workItem from="1621563799896" duration="1343000" />
+      <workItem from="1621565297593" duration="3597000" />
     </task>
-    <task id="LOCAL-00001" summary="make some editting with the css">
-      <created>1620902757168</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1620902757168</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -108,6 +93,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-
   </component>
 </project>
