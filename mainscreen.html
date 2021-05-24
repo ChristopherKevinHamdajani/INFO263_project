@@ -20,7 +20,7 @@
     <div class="jumbotron text-center">
         <h1>Event Scheduler</h1>
     </div>
-    <nav nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Navbar</a>
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -48,37 +48,7 @@
 
 
     <script>
-        $("#searchBar").keypress(function(){
-            if ($('#searchBar').val() == ""){
-                $("#searchResults").slideUp();
-                $('#searchResults').html(function () {
-                    return ""
-                })
-            } else{
-                let data = {'command':'searchString','string' : $('#searchBar').val()} // THis is the text in the search bar
-                $.post("server.php", data, function(data){
-                    let obj = JSON.parse(data);
-                    $('#searchResults').html(function () { //updates the html within the search list
-                        let listArray = new Set();  //Creates a set
-                        for (let i = 0; i < obj.length; i++){
-                            listArray.add(obj[i].event_name); // adds all the results to the set to remove duplicates
-                        }
-                        let list = ""
 
-                        //$('#loadingIcon').hide() // Hides the loading Icon
-                        //$('#searchSuggestionOptions').css({'justify-content' : 'start'}) //Moves the results up to the top
-
-                        listArray.forEach((value, key) => {
-                            list += "<li>"+ key + "</li>"
-                        })
-
-
-                        return list
-                    })
-                    $("#searchResults").slideDown();
-                })
-            }
-        })
 
     </script>
 
@@ -106,13 +76,14 @@
             </div>
         </div>
         <div class="row">
-            <input class="col-4" type="date" id="startDate">
-            <input class="col-4" type="date" id="endDate">
-            <button id="searchDateButton" class="col-4">Go</button>
+            <label for="startDate" class="col-2">Start Date</label>
+            <input class="col-3" type="date" id="startDate">
+            <label for="endDate" class="col-2">End Date</label>
+            <input class="col-3" type="date" id="endDate">
+            <button id="searchDateButton" class="col-2">Go</button>
         </div>
         <div class="row">
             <div class="col" id="mainTable">
-                <script>getEvents()</script>
             </div>
         </div>
         <div class="row">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 19, 2021 at 01:56 AM
+-- Generation Time: May 24, 2021 at 01:17 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.11
 
@@ -51,6 +51,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_event_week` (IN `name` VARCHAR(
     insert into front_weekly (event_id, week_of_year, event_year) values (id, week, year);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_from_id` (IN `eventId` INT)  NO SQL
+BEGIN
+	Delete from front_action where event_id=eventId;
+	Delete from front_daily where event_id = eventId;
+	Delete from front_weekly where event_id = eventId;
+	Delete from front_event where event_id = eventId;
+END$$
+
 CREATE DEFINER=`admin`@`localhost` PROCEDURE `disable_cluster` (IN `in_cluster_name` CHAR(128), IN `in_machine_group` CHAR(100))  BEGIN
         update front_cluster_instance ci
         join front_cluster c on ci.cluster_id = c.cluster_id
@@ -74,9 +82,29 @@ BEGIN
 	SELECT * FROM front_cluster ORDER BY cluster_name;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_events_that_match_name` (IN `eventName` VARCHAR(60))  NO SQL
+BEGIN
+	SELECT * from vw_display_view where event_name = eventName;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_event_id` ()  NO SQL
+BEGIN
+	SELECT DISTINCT event_id, event_name from vw_display_view ORDER by event_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_events_on_date` (IN `date_input` DATE)  NO SQL
 BEGIN
-	SELECT * FROM vw_display_view WHERE date = date_input ORDER BY date;
+	SELECT * FROM vw_display_view WHERE date = date_input;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_events_on_date_to_date` (IN `startDate` DATE, IN `endDate` DATE)  NO SQL
+BEGIN
+	SELECT * FROM vw_display_view where date BETWEEN startDate and endDate order by date, event_name;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_from_id` (IN `event_id_input` INT)  NO SQL
+BEGIN
+	SELECT * FROM vw_front_event where event_id_input = event_id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_id` (IN `event` VARCHAR(60))  NO SQL
@@ -151,7 +179,12 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `select_all_display_view` ()  NO SQL
 BEGIN
-	select * from vw_display_view order by date;
+	select * from vw_display_view order by event_id, date DESC;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `select_event_from_id` (IN `EventId` INT)  NO SQL
+BEGIN
+	SELECT DISTINCT time_offset, event_id, event_name, date, time from vw_display_view where event_id=eventId and cluster_name != "labs" ORDER by date;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `show_rooms` ()  BEGIN
@@ -163,6 +196,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `show_room_clients` (IN `p_room_name
 	FROM vw_front_group_client
 	WHERE room_name = p_room_name
 	ORDER BY position;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_event_action` (IN `timeOffset` VARCHAR(20), IN `clusterId` INT, IN `actionId` INT)  NO SQL
+BEGIN
+	UPDATE front_action set time_offset=timeOffset, cluster_id=clusterId where action_id = actionId;
 END$$
 
 DELIMITER ;
@@ -188,8 +226,6 @@ CREATE TABLE `front_action` (
 INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`, `activate`) VALUES
 (1, 1, '-00:05:00', 9, 1),
 (2, 1, '02:00:00', 9, 0),
-(3, 2, '00:00:00', 4, 1),
-(4, 2, '00:05:00', 4, 0),
 (5, 3, '-00:10:00', 3, 0),
 (6, 3, '-00:10:00', 4, 1),
 (7, 3, '02:00:00', 4, 0),
@@ -960,10 +996,6 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (794, 165, '-00:05:00', 23, 1),
 (795, 165, '00:30:00', 23, 0),
 (796, 165, '00:30:00', 3, 1),
-(797, 166, '-00:05:00', 3, 0),
-(798, 166, '-00:05:00', 23, 1),
-(799, 166, '00:30:00', 23, 0),
-(800, 166, '00:30:00', 3, 1),
 (801, 167, '-00:05:00', 3, 0),
 (802, 167, '-00:05:00', 4, 1),
 (803, 167, '03:00:00', 4, 0),
@@ -992,18 +1024,10 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (827, 172, '-00:05:00', 4, 1),
 (828, 172, '01:00:00', 3, 1),
 (829, 172, '01:00:00', 4, 0),
-(830, 227, '-00:05:00', 3, 0),
-(831, 227, '18:18:00', 3, 1),
-(832, 230, '-00:05:00', 3, 0),
-(833, 230, '19:17:00', 3, 1),
-(834, 231, '-00:05:00', 3, 0),
-(835, 231, '-00:05:00', 10, 1),
-(836, 231, '19:18:00', 3, 1),
-(837, 231, '19:18:00', 10, 0),
-(838, 232, '-00:05:00', 3, 0),
-(839, 232, '-00:05:00', 21, 1),
-(840, 232, '16:56:00', 3, 1),
-(841, 232, '16:56:00', 21, 0);
+(854, 259, '-00:05:00', 3, 0),
+(855, 259, '-00:05:00', 23, 1),
+(856, 259, '02:00:00', 3, 1),
+(857, 259, '-00:20:00', 23, 0);
 
 -- --------------------------------------------------------
 
@@ -1379,8 +1403,6 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (36, 1, 7, 5, '08:00:00'),
 (37, 1, 7, 5, '11:00:00'),
 (38, 1, 7, 5, '14:00:00'),
-(39, 2, 19, 3, '08:39:00'),
-(40, 2, 19, 3, '09:15:00'),
 (41, 3, 6, 3, '10:00:00'),
 (42, 3, 6, 4, '10:00:00'),
 (43, 4, 6, 4, '11:00:00'),
@@ -2026,8 +2048,6 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (713, 164, 6, 5, '14:00:00'),
 (714, 164, 22, 5, '14:00:00'),
 (715, 165, 5, 3, '14:30:00'),
-(716, 166, 6, 3, '14:30:00'),
-(717, 166, 22, 3, '14:30:00'),
 (718, 167, 6, 2, '17:00:00'),
 (719, 167, 22, 2, '17:00:00'),
 (720, 168, 6, 3, '17:00:00'),
@@ -2046,19 +2066,9 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (762, 226, 1, 3, '18:13:00'),
 (763, 226, 23, 3, '18:13:00'),
 (764, 226, 5, 3, '18:13:00'),
-(765, 227, 16, 4, '18:18:00'),
-(766, 227, 1, 4, '18:18:00'),
-(767, 227, 23, 4, '18:18:00'),
-(768, 227, 5, 4, '18:18:00'),
-(769, 227, 6, 4, '18:18:00'),
-(770, 230, 16, 1, '19:17:00'),
-(771, 230, 1, 1, '19:17:00'),
-(772, 230, 23, 1, '19:17:00'),
-(773, 231, 16, 2, '19:18:00'),
-(774, 231, 1, 2, '19:18:00'),
-(775, 231, 23, 2, '19:18:00'),
-(776, 231, 5, 2, '19:18:00'),
-(777, 232, 23, 2, '16:56:00');
+(781, 259, 5, 6, '11:38:00'),
+(782, 259, 6, 6, '11:38:00'),
+(783, 259, 22, 6, '11:38:00');
 
 -- --------------------------------------------------------
 
@@ -2102,7 +2112,6 @@ CREATE TABLE `front_event` (
 
 INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (1, 'EMTH171-LabTestB', 1),
-(2, 'EMTH118-MapleTA-Test', 1),
 (3, 'EMTH118-MapleTA', 1),
 (4, 'EMTH119-MapleTA-1 hour', 1),
 (5, 'EMTH119-MapleTA-2 hour', 1),
@@ -2260,7 +2269,6 @@ INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (163, 'MATH110-19S2 Test Thursday', 1),
 (164, 'MATH110-19S1 Test Friday', 1),
 (165, 'MATH110-19S1 Test Wednesday E033', 1),
-(166, 'MATH110-19S1 Test Wednesday E035', 1),
 (167, 'EMTH210-20S1 3-hour', 1),
 (168, 'EMTH210-20S1 4-hour', 1),
 (169, 'EMTH210-20S1 2+hour', 1),
@@ -2268,14 +2276,23 @@ INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (171, 'STAT101-20S1 Thursday ', 1),
 (172, 'EMTH210-20S1 1-hour', 1),
 (226, 'daved', 1),
-(227, 'daveds', 1),
 (228, 'mathdad', 1),
 (229, 'mathdads', 1),
-(230, 'davedddd', 1),
-(231, 'mathasdasd', 1),
-(232, 'Emath_test', 1),
 (233, 'math', 1),
-(234, 'Testing', 1);
+(234, 'Testing', 1),
+(242, 'testing1234', 1),
+(243, 'testing12345', 1),
+(245, 'asdljalskjdas', 1),
+(246, 'hi', 1),
+(247, 'tess', 1),
+(248, 'Hello', 1),
+(249, 'eee', 1),
+(250, 'heeeeee', 1),
+(251, 'Teeee', 1),
+(252, 'ajsdasd', 1),
+(253, 'ere', 1),
+(255, 'yeee', 1),
+(259, 'Testing134', 1);
 
 -- --------------------------------------------------------
 
@@ -2467,7 +2484,6 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (7, 1, 38, 2015),
 (8, 1, 40, 2015),
 (9, 1, 41, 2015),
-(11, 2, 29, 2015),
 (13, 3, 31, 2015),
 (14, 3, 37, 2015),
 (15, 3, 40, 2015),
@@ -2726,10 +2742,6 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (275, 164, 13, 2020),
 (276, 164, 22, 2020),
 (277, 165, 9, 2020),
-(278, 166, 11, 2020),
-(279, 166, 13, 2020),
-(280, 166, 18, 2020),
-(281, 166, 20, 2020),
 (282, 165, 22, 2020),
 (283, 167, 12, 2020),
 (284, 168, 12, 2020),
@@ -2738,10 +2750,7 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (287, 171, 12, 2020),
 (288, 172, 12, 2020),
 (290, 226, 20, 2021),
-(291, 227, 20, 2021),
-(292, 230, 20, 2021),
-(293, 231, 20, 2021),
-(294, 232, 20, 2021);
+(298, 259, 20, 2021);
 
 -- --------------------------------------------------------
 
@@ -2751,8 +2760,8 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
-  `username` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(64) COLLATE utf8mb4_general_ci NOT NULL
+  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2810,10 +2819,6 @@ CREATE TABLE `vw_front_event` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_group_client` (
-`mac` char(17)
-,`position` int(11)
-,`room_name` varchar(127)
-,`serial_no` varchar(128)
 );
 
 -- --------------------------------------------------------
@@ -2935,7 +2940,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `front_action`
 --
 ALTER TABLE `front_action`
-  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=842;
+  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=858;
 
 --
 -- AUTO_INCREMENT for table `front_cluster`
@@ -2947,13 +2952,13 @@ ALTER TABLE `front_cluster`
 -- AUTO_INCREMENT for table `front_daily`
 --
 ALTER TABLE `front_daily`
-  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=778;
+  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=784;
 
 --
 -- AUTO_INCREMENT for table `front_event`
 --
 ALTER TABLE `front_event`
-  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT for table `front_event_log`
@@ -2971,7 +2976,7 @@ ALTER TABLE `front_group`
 -- AUTO_INCREMENT for table `front_weekly`
 --
 ALTER TABLE `front_weekly`
-  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
+  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
 
 --
 -- AUTO_INCREMENT for table `user`

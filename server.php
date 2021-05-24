@@ -14,7 +14,6 @@ if ($conn->connect_error)
 }
 
 
-
 function getAllEvents($conn){
     $query = "CALL select_all_display_view()";
     $result = mysqli_multi_query($conn, $query);
@@ -22,7 +21,6 @@ function getAllEvents($conn){
     if ($result = $conn->store_result()){
         $sqlArray = $result->fetch_all();
         $result->free();
-
 
         foreach ($sqlArray as $item){
             $each = array();
@@ -119,7 +117,7 @@ function getEventsOnDateToDate($conn, $date, $endDate){
             $each = array();
             $each["event_name"] = $item[0];
             $each["cluster_name"] = $item[1];
-            $each["date"] = $item[2];t
+            $each["date"] = $item[2];
             $each["time"] = $item[3];
             $each["activate"] = $item[4];
             $each["machine_group"] = $item[5];
@@ -244,6 +242,29 @@ function createFullEvent($conn, $eventId, $eventLength, $date, $time, $offset, $
 
 }
 
+function getEventFromId($conn,$eventId){
+    $query = "CALL select_event_from_id('$eventId')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["time_offset"] = $item[0];
+            $each["event_id"] = $item[1];
+            $each["event_name"] = $item[2];
+            $each["date"] = $item[3];
+            $each["time"] = $item[4];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+}
+
+
 function getEventByStr($conn, $string) {
     //SQL statement to get all event details from database
     $sqlString = $string;
@@ -352,6 +373,71 @@ function getEventDate($conn, $eventId){
 
 }
 
+function getEventsThatMatchName($conn, $eventName){
+    $query = "CALL get_all_events_that_match_name('$eventName')";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["event_name"] = $item[0];
+            $each["cluster_name"] = $item[1];
+            $each["date"] = $item[2];
+            $each["time"] = $item[3];
+            $each["activate"] = $item[4];
+            $each["machine_group"] = $item[5];
+            $each["time_offset"] = $item[6];
+            $each["event_id"] = $item[7];
+            $each["group_id"] = $item[8];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+}
+
+
+function deleteItem($conn, $item){
+    $query = "CALL delete_from_id('$item')";
+    $result = mysqli_multi_query($conn, $query);
+    return "Success";
+
+}
+
+
+function getEventActions($conn, $eventId){
+    $query = "Select * from front_action where event_id='$eventId'";
+    $result = mysqli_multi_query($conn, $query);
+    $returnArray = array();
+    if ($result = $conn->store_result()){
+        $sqlArray = $result->fetch_all();
+        $result->free();
+
+
+        foreach ($sqlArray as $item){
+            $each = array();
+            $each["action_id"] = $item[0];
+            $each["event_id"] = $item[1];
+            $each["time_offset"] = $item[2];
+            $each["cluster_id"] = $item[3];
+            $each["activate"] = $item[4];
+            array_push($returnArray, $each);
+        }
+
+        return $returnArray;
+    }
+}
+
+function updateEventAction($conn, $actionId, $timeOffset, $clusterId){
+    $query = "CALL update_event_action('$timeOffset', '$clusterId', '$actionId')";
+    $result = mysqli_multi_query($conn, $query);
+    return "Updated";
+}
+
 
 if (!empty(($_POST))) {
     switch ($_POST["command"]) {
@@ -401,6 +487,27 @@ if (!empty(($_POST))) {
             break;
         case "getEventsOnDate":
             echo json_encode(getEventsOnDate($conn, $_POST['date']));
+            break;
+        case "getEventsOnDateToDate":
+            echo json_encode(getEventsOnDateToDate($conn, $_POST['startDate'], $_POST['endDate']));
+            break;
+        case "getEventsThatMatchName":
+            echo json_encode(getEventsThatMatchName($conn, $_POST['eventName']));
+            break;
+        case "getEventFromId":
+            echo json_encode(getEventFromId($conn, $_POST['eventId']));
+            break;
+        case "delete":
+            echo json_encode(deleteItem($conn, $_POST["event_id"]));
+            break;
+        case "getEventActions":
+            echo json_encode(getEventActions($conn, $_POST["event_id"]));
+            break;
+        case "updateEventAction":
+            echo json_encode(updateEventAction($conn, $_POST['action_id'], $_POST['time_offset'], $_POST['cluster_id']));
+            break;
+
+
     }
 }
 
