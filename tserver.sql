@@ -2819,6 +2819,10 @@ CREATE TABLE `vw_front_event` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_group_client` (
+     `mac` char(17)
+    ,`position` int(11)
+    ,`room_name` varchar(127)
+    ,`serial_no` varchar(128)
 );
 
 -- --------------------------------------------------------
