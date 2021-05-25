@@ -306,6 +306,12 @@ $(document).on('keypress', '#searchBar',null, function(){
     searchBarInput();
 });
 
+$(document).on('click', 'body', null, function() {
+    if(!$('#searchResults').hidden){
+        $('#searchResults').slideUp()
+    }
+})
+
 $(document).on('mouseover', '.searchListItem', null, function(){
     $(this).css('background-color', "yellow")
 })

@@ -87,7 +87,12 @@ body{
     font-size: 1em;
     color: #f1faee;
 }
-
+#allEventsButton, #upcomingEventsButton, #completedEvents{
+    transition: transform 150ms;
+}
+#allEventsButton:hover, #upcomingEventsButton:hover, #completedEvents:hover{
+    transform: scale(1.01);
+}
 
 
 .menuButtons{
