@@ -426,6 +426,7 @@ function getEventActions($conn, $eventId){
             $each["cluster_id"] = $item[3];
             $each["activate"] = $item[4];
             array_push($returnArray, $each);
+            array_push($returnArray, $each);
         }
 
         return $returnArray;

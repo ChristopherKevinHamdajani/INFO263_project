@@ -1,4 +1,12 @@
 eventNameArray = getAllEventNames();
+let currentEvents = [];
+let completedEvents = [];
+let upcomingEvents = [];
+let eventArray = [];
+let allEvents = [];
+
+
+
 
 let tableFields = [
     {name: "event_id", title: "Id", type: "number"},
@@ -20,7 +28,7 @@ function createTable(data, fields){
         inserting: false,
         editing: false,
         sorting: true,
-        paging: false,
+        paging: true,
         data: data,
         fields: fields,
         noDataContent: "No Events on this day/period",
@@ -40,14 +48,104 @@ function createTable(data, fields){
         rowClick: function(args){
             let eventId = args.item["event_id"]
             console.log(args.item)
-            document.cookie = "eventId=" + args.item["event_id"];
-            document.cookie = "eventName=" + args.item["event_name"];
-            document.cookie = "date=" + args.item["date"];
-            document.cookie = "time=" + args.item["time"];
             window.location.replace("edit.html?date="+args.item["date"]+"&eventId=" + args.item["event_id"])
         }
     })
 }
+
+$(document).on('click', '#allEventsButton',null, function(){
+    displayAllEvents()
+})
+
+function displayAllEvents(){
+    let command = {'command' : "getEvents"}
+    $.post('server.php', command, function(data){
+        let obj = JSON.parse(data)
+        createTable(obj, tableFields)
+    })
+}
+
+$(document).on('click', '#upcomingEventsButton',null, function(){
+    let date = new Date()
+    let month = date.getMonth() + 1;
+    let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
+    let command = {'command': 'getEventsOnDateToDate', 'startDate': dateObj, 'endDate': "2100-03-20"};
+
+    $.post('server.php', command, function(data){
+        let obj = JSON.parse(data)
+        createTable(obj, tableFields)
+    })
+})
+
+$(document).on('click', '#completedEvents', null,function() {
+    let date = new Date()
+    let month = date.getMonth() + 1;
+    let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
+    let command = {'command': 'getEventsOnDateToDate', 'startDate': "1999-01-01", 'endDate': dateObj};
+
+    $.post('server.php', command, function (data) {
+        let obj = JSON.parse(data)
+        createTable(obj, tableFields)
+    })
+})
+
+
+function populateEventNumbers(eventArray){
+    let data = {'command' : "getEvents"}
+    $.post('server.php', data ,function (data) {
+        let obj = JSON.parse(data)
+        let dateObject = new Date();
+        allEvents = makeArrayUniqueByEventId(obj)
+        let eventIdSet = new Set();
+        for (let i = 0; i < obj.length; i++) {
+            eventIdSet.add(obj[i].event_id) // adds event_id to eventIdSet, compiles list/set of used event_id's
+
+            let objYear = obj[i].date.slice(0, 4);
+            let objMonth = obj[i].date.slice(5, 7);
+            let objDate = obj[i].date.slice(8);
+            let objTime = obj[i].time;
+
+            if (objDate[0] == 0) { // If date = 06, this makes it 6, needed for the Date Object
+                objDate = objDate[1]
+            }
+            if (objMonth[0] == 0) { // Same as above, but for month.
+                objMonth = objMonth[1]
+
+            }
+            let dateObj = new Date(objYear, objMonth, objDate)
+            if (dateObj < dateObject) {
+
+                completedEvents.push(obj[i])
+            } else if (dateObj > dateObject) {
+
+                upcomingEvents.push(obj[i])
+            }
+
+            $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
+            $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
+            $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
+        }
+
+    })
+}
+
+
+function makeArrayUniqueByEventId(array){
+    let tempArray = [];
+    for (let i = 0; i < array.length; i++) { // Loops through and pushes each unique event_id + obj to array
+        if (!tempArray.some(e => e.event_id === array[i].event_id)) {
+            tempArray.push(array[i])
+        }
+    }
+    return tempArray
+}
+
+
+
+
+
+
+
 
 function viewEvent(){
 
@@ -72,7 +170,6 @@ function getEvents(){
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth() + 1
     let dateString = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDate.getDate();
-    console.log(dateString)
     let command = {'command' :'getEventsOnDate', 'date': dateString};
     let returnArray = [];
     $.post('server.php', command, function(data){
@@ -82,11 +179,19 @@ function getEvents(){
 
 }
 
+
+
+
 $(document).on('click', '#searchDateButton', function (){
     let startDate = $("#startDate").val()
     let endDate = $("#endDate").val()
-    if($("#startDate").val() != ""){ // There was a start date value selected
-        if($("#endDate").val() != ""){ // There was also a end date value selected
+    searchDate(startDate, endDate)
+})
+
+
+function searchDate(startDate, endDate){
+    if($("#startDate").val() !== ""){ // There was a start date value selected
+        if($("#endDate").val() !== ""){ // There was also a end date value selected
             let command = {'command' :'getEventsOnDateToDate', 'startDate': $("#startDate").val(), 'endDate': $("#endDate").val()};
             $.post('server.php', command, function(data){
                 let obj = JSON.parse(data)
@@ -102,7 +207,7 @@ $(document).on('click', '#searchDateButton', function (){
 
         }
     }
-})
+}
 
 
 function populateEventClusterServerCall(select){
@@ -257,8 +362,9 @@ function searchBarInput(){
 $(document).ready(function(){
     getEvents();
     //viewEvent();
+    populateEventNumbers()
     populateGroupSelectorDropdown("selectGroup");
-    populateEventClusterServerCall("eventCluster");
+    populateEventClusterServerCall("selectEventClusterDropdown");
 
 })
 
