@@ -40,79 +40,83 @@
         </div>
     </nav>
 
+
     <div id="container" class="container">
-        <div id="newEventForm">
-            <div id="createEventName">
-                <form id="eventNameForm">
-                    <div class="border-bottom pb-3 mt-3">
-                        <div class="form-floating ">
-                            <input id="eventNameInput" class="form-control" type="text" placeholder="Event Name" name="eventName" required="required" >
-                            <label for="eventNameInput" class="form-label">Enter Event Name</label>
-                        </div>
-                        <div>
-                            <button type="submit" for="eventNameForm">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div id="restOfForm" style="display: none">
-                <form id="eventForm" class="col-8 mx-auto">
-                    <h1 id="eventName"></h1>
-
-                    <div class="mt-3">
-                        <label for="selectEventClusterDropdown" class="form-label">Select Event Cluster</label>
-                        <select name="eventCluster" class="form-select" id="selectEventClusterDropdown" required="required">
-                        </select>
-                    </div>
-
-
-
-                    <div class="mt-3">
-                        <label for="selectGroup" class="form-label">Select Computer Groups</label>
-                        <select name="group" id="selectGroup" class="form-select" multiple="multiple" required="required">
-                        </select>
-                        <div class="form-text">You can select multiple groups by holding down ctrl key on windows or the command key on Mac</div>
-                    </div>
-
-
-
-                    <div class="mt-3">
-                        <label for="dateInput" class="form-label">Date</label>
-                        <input type="date" id="dateInput" required="required">
-                    </div>
-
-                    <div class="mt-3">
-                        <label for="startTimeInput" class="form-label">Start Time</label>
-                        <input type="time" id="startTimeInput" name="startTime" required="required">
-                    </div>
-
-
-
-                    <div class="mt-3">
-                        <label for="startTimeInputOffset" class="form-label">Start Time Offset</label>
-                        <input type="text" id="startTimeInputOffset" name="startTimeOffset" placeholder="-00:00:00">
-                    </div>
-
-                    <div class="mt-3">
-                        <label for="eventLengthInput" class="form-label">Event Length</label>
-                        <input type="text" id="eventLengthInput" name="eventLengthInput" placeholder="00:00:00">
-                    </div>
-
-                    <div class="mt-3 mx-auto">
-                        <button type="submit" class="btn btn-primary" id="submitEvent" form="eventForm">Submit</button>
-                        <input type="hidden" name="event_id" value="" id="hiddenEventId">
-                    </div>
-
-
-                </form>
-
-
-            </div>
-
-
+        <div id="eventActions">
 
         </div>
+        <script>
+            function populateClusterOptions(select, clusterId){
+                let command = {'command': "getEventClusterList"}
+                $.post('server.php', command, function (data){
+                    let obj = JSON.parse(data);
+                    for (let i = 0; i < obj.length; i++){
+                        if (obj[i]["cluster_id"] === clusterId){
+                            $("#" + select).append("<option value=" + obj[i]["cluster_id"] + " selected>" +obj[i]["cluster_name"] + "</option>")
+                        } else {
+                            $("#" + select).append("<option value=" + obj[i]["cluster_id"] + ">" +obj[i]["cluster_name"] + "</option>")
+                        }
+                    }
 
+                })
+            }
+
+
+            function createEventActionsEdit(i,actionId, eventId, timeOffset, clusterId, activate){
+                let eventActionsDiv =
+                    "<div class='container border border-primary'><form id='formActionId"+ actionId +"'class='formActionChange'>" +
+                        "<div class='row'><p class='col-6'>Action Id:"+ actionId + "</p><p class='col-6'>Event Id:"+eventId+"</p></div>" +
+                        "<div class='row'><label class='col-1'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset"+ i +"'>"+timeOffset+"</input></div>" +
+                        "<div class='row'><select name='clusterSelect' class='col-6' id=selector" + actionId + "></select><p class='col-6'>"+activate+"</p></div>" +
+                        "<div class='row'><button type='submit' for='formActionId"+ actionId+"' id="+ actionId +" class='btn btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='"+actionId+"' name='actionId'></div>" +
+                    "</form></div>"
+                return eventActionsDiv;
+            }
+            let command = {'command' :'getEventActions', 'event_id' : 259};
+            $.post('server.php', command, function(data){
+                let obj = JSON.parse(data)
+                let i = 0;
+                obj.forEach(function(object){
+                    let actionId = object["action_id"];
+                    let eventId = object["event_id"];
+                    let timeOffset = object["time_offset"];
+                    let clusterId = object["cluster_id"];
+                    let activate = object["activate"];
+                    $("#container").append(createEventActionsEdit(i, actionId, eventId, timeOffset, clusterId, activate));
+                    $("#timeOffset" + i).val(timeOffset)
+                    populateClusterOptions("selector" + actionId, clusterId)
+
+                    i += 1;
+                })
+
+            })
+
+            $(document).on("submit", ".formActionChange", null, function(event){
+                let array = $(this).serializeArray()
+                console.log(array)
+                let timeOffset = array[0].value
+                let clusterId = array[1].value
+                let actionId = array[2].value
+
+                event.preventDefault()
+                let command = {'command' :'updateEventAction', 'action_id' : actionId, 'cluster_id': clusterId, 'time_offset': timeOffset};
+                $.post('server.php', command, function(data) {
+                    console.log("Worked")
+                    window.location.replace("edit.html");
+                    alert("Event updated succesfully.")
+                })
+
+            })
+
+            let queryString = window.location.search;
+            let urlParams = new URLSearchParams(queryString);
+            let date = urlParams.get('date');
+            let eventId = urlParams.get('eventId');
+
+            console.log(date)
+            console.log(eventId)
+
+        </script>
 
     </div>
 </div>
