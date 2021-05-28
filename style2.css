@@ -1,7 +1,9 @@
 #search input {
     width: 100%;
 }
-
+#navigation{
+    background-color: blue;
+}
 .col-10.row button.dropdown{
     float: right;
 }

@@ -98,132 +98,132 @@
 
 
 
-    //function createOtherTable(){
-    //    let tableFields = [
-    //        {name:"eventId", title:"Id", type : "number", width: 20},
-    //        {name:"eventName", title: "Name", type: "text", width: 200},
-    //        {name:"date", title:"Date", type:"select", width:70},
-    //        {name:"clientGroup", title:"Cluster", type:"text", width:70},
-    //        {name:"time", title: "Time", type: "text"},
-    //        {name:"clientConfiguration", title: "Activate", type: "text"}
-    //    ];
-//
-    //    $("#otherTable").jsGrid({
-    //        width: "90%",
-    //        height: "700px",
-    //        inserting: false,
-    //        editing: false,
-    //        sorting: true,
-    //        paging: false,
-    //        fields: tableFields
-    //    })
-//
-//
-//
-    //}
-//
-//
-    //class event{
-//
-    //    constructor(id, eventName) {
-    //        this.eventId = id;
-    //        this.eventName = eventName;
-    //        this.date = [];
-    //    }
-//
-    //    eventId(){
-    //        return this.eventId;
-    //    }
-//
-//
-    //    setClientConfiguration (clusterArray){
-    //        this.clientConfiguration = clusterArray;
-    //    }
-//
-    //    setClientGroup(group){
-    //        this.clientGroup = group;
-    //    }
-//
-//
-    //}
+    function createOtherTable(){
+        let tableFields = [
+            {name:"eventId", title:"Id", type : "number", width: 20},
+            {name:"eventName", title: "Name", type: "text", width: 200},
+            {name:"date", title:"Date", type:"select", width:70},
+            {name:"clientGroup", title:"Cluster", type:"text", width:70},
+            {name:"time", title: "Time", type: "text"},
+            {name:"clientConfiguration", title: "Activate", type: "text"}
+        ];
 
-    //function createObjects(){
-    //    //get event Id
-    //    //from eventId get the cluster id ad cluster group
-    //    //from eventId get machine id and machine group
-    //    //get date
-    //    //get time
-    //    // get active
-//
-    //    let data = {'command' : 'getAllEventId'}
-    //    let objArray = [];
-    //    //Creates the Event Objects initialized with event_id and event_name
-    //    $.post('server.php', data, function(data){
-    //        let obj = JSON.parse(data);
-//
-    //        obj.forEach(element => {
-    //            let eventId = element['event_id']
-    //            let eventName = element['event_name']
-    //            objArray.push(new event(eventId, eventName))
-    //        })
-    //        objArray.forEach(event =>{
-    //            data = {'command' : 'getClusterEventFromId', 'event_id': event.eventId}
-    //            $.post("server.php", data, function(returnData){
-    //                let eventClusterArray = [];
-    //                let obj = JSON.parse(returnData)
-    //                obj.forEach(eventCluster => {
-    //                    let clusterId = eventCluster["cluster_id"];
-    //                    let clusterStatus = eventCluster["cluster_status"]
-    //                    let cluster_offset = eventCluster["time_offset"]
-    //                    eventClusterArray.push([clusterId, clusterStatus, cluster_offset])
-    //                })
-    //                event.setClientConfiguration(eventClusterArray)
-//
-    //            })
-//
-    //            $.post("server.php", {'command' : 'getClientGroupFromId', 'event_id': event.eventId}, function(returnData){
-    //                let obj = JSON.parse(returnData);
-    //                let arrayOfClients = [];
-    //                obj.forEach(client => {
-    //                    arrayOfClients.push(client["machine_group"])
-    //                })
-    //                event.setClientGroup(arrayOfClients);
-    //            })
-//
-//
-    //            $.post("server.php", {'command' : 'getEventDate', 'event_id': event.eventId}, function(returnData){
-    //                let obj = JSON.parse(returnData);
-    //                let eventDate = [];
-    //                obj.forEach(event => {
-    //                    eventDate.push(event["date"])
-    //                    eventDate.push(event["time"])
-    //                })
-    //                event.date = eventDate;
-    //            console.log("Done first")
-    //            })
-//
-//
-//
-    //        })
-//
-    //    })
-//
-    //    setTimeout(() => {
-    //        console.log("Done second")
-    //        objArray.forEach(event=>{
-    //            event.date = "1932"
-    //            console.log(Array(event.date))
-//
-    //            $('#otherTable').jsGrid("insertItem", {eventId : event.eventId, eventName : event.eventName, date : event.date })
-    //        })
-    //    }, 5000)
-//
-//
-//
-//
-    //}
-    //createObjects()
-    //createOtherTable()
+        $("#otherTable").jsGrid({
+            width: "90%",
+            height: "700px",
+            inserting: false,
+            editing: false,
+            sorting: true,
+            paging: false,
+            fields: tableFields
+        })
+
+
+
+    }
+
+
+    class event{
+
+        constructor(id, eventName) {
+            this.eventId = id;
+            this.eventName = eventName;
+            this.date = [];
+        }
+
+        eventId(){
+            return this.eventId;
+        }
+
+
+        setClientConfiguration (clusterArray){
+            this.clientConfiguration = clusterArray;
+        }
+
+        setClientGroup(group){
+            this.clientGroup = group;
+        }
+
+
+    }
+
+    function createObjects(){
+        //get event Id
+        //from eventId get the cluster id ad cluster group
+        //from eventId get machine id and machine group
+        //get date
+        //get time
+        // get active
+
+        let data = {'command' : 'getAllEventId'}
+        let objArray = [];
+        //Creates the Event Objects initialized with event_id and event_name
+        $.post('server.php', data, function(data){
+            let obj = JSON.parse(data);
+
+            obj.forEach(element => {
+                let eventId = element['event_id']
+                let eventName = element['event_name']
+                objArray.push(new event(eventId, eventName))
+            })
+            objArray.forEach(event =>{
+                data = {'command' : 'getClusterEventFromId', 'event_id': event.eventId}
+                $.post("server.php", data, function(returnData){
+                    let eventClusterArray = [];
+                    let obj = JSON.parse(returnData)
+                    obj.forEach(eventCluster => {
+                        let clusterId = eventCluster["cluster_id"];
+                        let clusterStatus = eventCluster["cluster_status"]
+                        let cluster_offset = eventCluster["time_offset"]
+                        eventClusterArray.push([clusterId, clusterStatus, cluster_offset])
+                    })
+                    event.setClientConfiguration(eventClusterArray)
+
+                })
+
+                $.post("server.php", {'command' : 'getClientGroupFromId', 'event_id': event.eventId}, function(returnData){
+                    let obj = JSON.parse(returnData);
+                    let arrayOfClients = [];
+                    obj.forEach(client => {
+                        arrayOfClients.push(client["machine_group"])
+                    })
+                    event.setClientGroup(arrayOfClients);
+                })
+
+
+                $.post("server.php", {'command' : 'getEventDate', 'event_id': event.eventId}, function(returnData){
+                    let obj = JSON.parse(returnData);
+                    let eventDate = [];
+                    obj.forEach(event => {
+                        eventDate.push(event["date"])
+                        eventDate.push(event["time"])
+                    })
+                    event.date = eventDate;
+                console.log("Done first")
+                })
+
+
+
+            })
+
+        })
+
+        setTimeout(() => {
+            console.log("Done second")
+            objArray.forEach(event=>{
+                event.date = "1932"
+                console.log(Array(event.date))
+
+                $('#otherTable').jsGrid("insertItem", {eventId : event.eventId, eventName : event.eventName, date : event.date })
+            })
+        }, 5000)
+
+
+
+
+    }
+    createObjects()
+    createOtherTable()
 </script>
 
 </body>
