@@ -11,6 +11,14 @@ if ($conn->connect_error) {
     die($conn->connect_error);
 }
 
+//try {
+//    $data = new PDO('mysql:host=$hostname;database=$database',$username, $password);
+//    $data->setAttribute(PDO::ATTR_ERRMODE, PDO:: ERRMODE_EXCEPTION);
+//}
+//catch(PDOException $e){
+//    echo "Connection failed : ". $e->getMessage();
+//}
+
 /** Gets all the events in the database.
  * @param mysqli $conn The connection to the database
  * @return array|null Returns an array of events or null.
@@ -539,6 +547,34 @@ function updateEventAction($conn, $actionId, $timeOffset, $clusterId){
     return "Updated";
 }
 
+function login_user($username, $password) {
+    global $conn;
+    if (empty($username)) {
+        header("Location: login.php?error=Username is required");
+    }
+    else if (empty($password)) {
+        header("Location: login.php?error=Password is required");
+    }
+    else {
+        authenticate($username, $password, $conn);
+    }
+}
+
+function authenticate($username, $password, $conn) {
+    $query = "SELECT * FROM user WHERE username='" . $username  . "'";
+    $result = $conn->query($query);
+
+    while($row = $result->fetch_assoc()) {
+
+        if (password_verify($password, $row["password"])) {
+            header("Location: mainscreen.html");
+           }
+        else {
+            header("Location: login.php?error=Incorrect username or password");
+        }
+    }
+}
+
 /**
  * The switching statement that controls the flow.
  * Calls functions depending on the "command" word.
@@ -613,6 +649,10 @@ if (!empty(($_POST))) {
 
 
     }
+
+
+
+
 }
 
 

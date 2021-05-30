@@ -2,8 +2,75 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/authenticate.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/.travis.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/Gruntfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/icons-2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/icons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/jsgrid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/css/theme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/basic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/batch-delete.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-grid-field.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-load-indicator.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-row-renderer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/custom-view.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/data-manipulation.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/db.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/demos.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/external-pager.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/loading-by-page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/localization.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/odata-service.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/rows-reordering.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/sorting.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/static-data.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/demos/validation.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/jquery/jquery-1.8.3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/qunit/qunit-1.10.0.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/external/qunit/qunit-1.10.0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.checkbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.control.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.number.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.select.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.text.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/fields/jsgrid.field.textarea.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/de.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/es.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/fr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/he.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ja.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ka.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pt-br.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/pt.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/ru.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/tr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/zh-cn.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/i18n/zh-tw.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.core.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.field.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.load-indicator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.load-strategies.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.sort-strategies.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/src/jsgrid.validation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.field.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.sort-strategies.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addons/jsgrid-1.5.3/tests/jsgrid.validation.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +91,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -44,7 +116,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../INFO 263 Website" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tutorial3" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -80,9 +152,6 @@
       <workItem from="1621542028241" duration="12047000" />
       <workItem from="1621563799896" duration="1343000" />
       <workItem from="1621565297593" duration="3597000" />
-      <workItem from="1621627776273" duration="68000" />
-      <workItem from="1621639652739" duration="12208000" />
-      <workItem from="1621973873426" duration="10257000" />
     </task>
     <servers />
   </component>
