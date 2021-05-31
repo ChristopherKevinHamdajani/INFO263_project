@@ -560,19 +560,26 @@ function login_user($username, $password) {
     }
 }
 
-function authenticate($username, $password, $conn) {
-    $query = "SELECT * FROM user WHERE username='" . $username  . "'";
+function authenticate($username, $password, $conn)
+{
+    $query = "SELECT * FROM user WHERE username='" . $username . "'";
     $result = $conn->query($query);
-
-    while($row = $result->fetch_assoc()) {
+//    $newlist = $result->fetch_assoc();
+//    if (count($newlist) == 0){
+//        header("Location: login.php?error=You have not been registered");
+//    }
+//    else{
+    while ($row = $result->fetch_assoc()) {
 
         if (password_verify($password, $row["password"])) {
             header("Location: mainscreen.html");
-           }
-        else {
-            header("Location: login.php?error=Incorrect username or password");
         }
-    }
+        else
+            {
+            header("Location: login.php?error=Incorrect username or password");
+            }
+        }
+
 }
 
 /**
