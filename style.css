@@ -1,9 +1,16 @@
 body{
-
+    background-color: #fafafa !important;
+    height: 100vh;
 }
 
 #page{
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+#title{
+    color: #FF9900!important;
+    font-family: 'Lobster', cursive;
+    font-size: 50px;
 
 }
 
@@ -124,3 +131,12 @@ body{
 
     cursor: pointer;
 }
+
+
+#editItemAction{
+    background-color: #bae8e8;
+    border:solid 1px #272343;
+    border-radius: 3px;
+}
+
+
