@@ -8,6 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script type="text/javascript" src="javascript.js"></script>
@@ -18,23 +20,16 @@
 <body>
 <div id="page"  class="container-lg">
     <div class="jumbotron text-center">
-        <h1>Event Scheduler</h1>
+        <h1 id="title">Event Scheduler</h1>
     </div>
     <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link " href="mainscreen.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="newEvent.html">New task</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link" href="newEvent.html">New task</a>
                 </li>
             </ul>
         </div>
@@ -42,10 +37,22 @@
 
 
     <div id="container" class="container">
-        <div id="eventActions">
+        <div class="text-center">
+            <h1 class="col-4 mx-auto" id="editPageEventName"></h1>
+        </div>
+
+        <div class="d-flex pt-2 pb-2 flex-wrap col-10 mx-auto " id="eventActions">
 
         </div>
         <script>
+            let queryString = window.location.search;
+            let urlParams = new URLSearchParams(queryString);
+            let date = urlParams.get('date');
+            let eventId = urlParams.get('eventId');
+            let eventName = urlParams.get("eventName")
+
+            $("#editPageEventName").text(eventName);
+
             function populateClusterOptions(select, clusterId){
                 let command = {'command': "getEventClusterList"}
                 $.post('server.php', command, function (data){
@@ -61,18 +68,27 @@
                 })
             }
 
+            function returnOnOrOff(number){
+                console.log(number)
+                if (number == 0){
+                    return "off"
+                } else {
+                    return "on"
+                }
+            }
 
             function createEventActionsEdit(i,actionId, eventId, timeOffset, clusterId, activate){
                 let eventActionsDiv =
-                    "<div class='container border border-primary'><form id='formActionId"+ actionId +"'class='formActionChange'>" +
-                        "<div class='row'><p class='col-6'>Action Id:"+ actionId + "</p><p class='col-6'>Event Id:"+eventId+"</p></div>" +
-                        "<div class='row'><label class='col-1'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset"+ i +"'>"+timeOffset+"</input></div>" +
-                        "<div class='row'><select name='clusterSelect' class='col-6' id=selector" + actionId + "></select><p class='col-6'>"+activate+"</p></div>" +
-                        "<div class='row'><button type='submit' for='formActionId"+ actionId+"' id="+ actionId +" class='btn btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='"+actionId+"' name='actionId'></div>" +
+                    "<div class='container mt-2 mb-2 col-5 shadow' id='editItemAction'><form id='formActionId"+ actionId +"'class='formActionChange'>" +
+                    "<div class='row'><p class='col-4 mx-auto'>Action Id:"+ actionId + "</p></div>" +
+                    "<div class='row'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset"+ i +"'></div>" +
+                    "<div class='row'><p class='col-6'>Cluster</p><select name='clusterSelect' class='col-5' id=selector" + actionId + "></select></div>" +
+                    "<div class='row'><p class='col-6'>Cluster State at time offset</p><p class='col-6'>"+returnOnOrOff(activate)+"</p></div>" +
+                    "<div class='row'><button type='submit' for='formActionId"+ actionId+"' id="+ actionId + " class='btn mb-2 col-6 mx-auto btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='"+actionId+"' name='actionId'></div>" +
                     "</form></div>"
                 return eventActionsDiv;
             }
-            let command = {'command' :'getEventActions', 'event_id' : 259};
+            let command = {'command' :'getEventActions', 'event_id' : eventId};
             $.post('server.php', command, function(data){
                 let obj = JSON.parse(data)
                 let i = 0;
@@ -82,7 +98,7 @@
                     let timeOffset = object["time_offset"];
                     let clusterId = object["cluster_id"];
                     let activate = object["activate"];
-                    $("#container").append(createEventActionsEdit(i, actionId, eventId, timeOffset, clusterId, activate));
+                    $("#eventActions").append(createEventActionsEdit(i, actionId, eventId, timeOffset, clusterId, activate));
                     $("#timeOffset" + i).val(timeOffset)
                     populateClusterOptions("selector" + actionId, clusterId)
 
@@ -93,7 +109,7 @@
 
             $(document).on("submit", ".formActionChange", null, function(event){
                 let array = $(this).serializeArray()
-                console.log(array)
+                //console.log(array)
                 let timeOffset = array[0].value
                 let clusterId = array[1].value
                 let actionId = array[2].value
@@ -101,20 +117,12 @@
                 event.preventDefault()
                 let command = {'command' :'updateEventAction', 'action_id' : actionId, 'cluster_id': clusterId, 'time_offset': timeOffset};
                 $.post('server.php', command, function(data) {
-                    console.log("Worked")
-                    window.location.replace("edit.html");
+                    window.location.replace("edit.html" + queryString);
                     alert("Event updated succesfully.")
                 })
 
             })
 
-            let queryString = window.location.search;
-            let urlParams = new URLSearchParams(queryString);
-            let date = urlParams.get('date');
-            let eventId = urlParams.get('eventId');
-
-            console.log(date)
-            console.log(eventId)
 
         </script>
 

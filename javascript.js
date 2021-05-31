@@ -122,9 +122,14 @@ function createTable(data, fields){
 
         },
         rowClick: function(args){
-            window.location.replace("edit.html?date="+args.item["date"]+"&eventId=" + args.item["event_id"])
+            linkToEditPage(args)
         }
+
+
     })
+    function linkToEditPage(args){
+        window.location.replace("edit.html?date="+args.item["date"]+"&eventId=" + args.item["event_id"] + "&eventName=" + args.item["event_name"])
+    }
 }
 
 /**
@@ -146,36 +151,36 @@ function populateEventNumbers(){
     let data = {'command' : "getEvents"}
     $.post('server.php', data ,function (data) {
         let obj = JSON.parse(data)
-        let dateObject = new Date();
+        let currentDate = new Date();
         allEvents = makeArrayUniqueByEventId(obj)
         let eventIdSet = new Set();
+
         for (let i = 0; i < obj.length; i++) {
             eventIdSet.add(obj[i].event_id) // adds event_id to eventIdSet, compiles list/set of used event_id's
-
             let objYear = obj[i].date.slice(0, 4);
             let objMonth = obj[i].date.slice(5, 7);
             let objDate = obj[i].date.slice(8);
-
             if (objDate[0] === 0) { // If date = 06, this makes it 6, needed for the Date Object
                 objDate = objDate[1]
+
             }
             if (objMonth[0] === 0) { // Same as above, but for month.
                 objMonth = objMonth[1]
 
             }
-            let dateObj = new Date(objYear, objMonth, objDate)
-            if (dateObj < dateObject) {
+            let dateOfEvent = new Date(objYear, objMonth, objDate)
+            if (currentDate.getTime() > dateOfEvent.getTime()) {
 
                 completedEvents.push(obj[i])
-            } else if (dateObj > dateObject) {
-
+            } else if (currentDate.getTime() <= dateOfEvent.getTime()) {
                 upcomingEvents.push(obj[i])
             }
-
+            //console.log(upcomingEvents)
             $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
             $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
             $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
         }
+
 
     })
 }
