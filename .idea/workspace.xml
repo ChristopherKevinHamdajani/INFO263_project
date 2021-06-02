@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on authenticate function">
-      <change afterPath="$PROJECT_DIR$/edit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/currentScreen.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newEvent.html" beforeDir="false" afterPath="$PROJECT_DIR$/newEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +91,8 @@
       <workItem from="1621542028241" duration="12047000" />
       <workItem from="1621563799896" duration="1343000" />
       <workItem from="1621565297593" duration="3597000" />
-      <workItem from="1622604961809" duration="6704000" />
+      <workItem from="1622604961809" duration="11000" />
+      <workItem from="1622630435145" duration="2433000" />
     </task>
     <task id="LOCAL-00001" summary="do a bit editing on authenticate function">
       <created>1622415362299</created>
@@ -110,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622415410733</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="login works perfectly, delete the authenticate.php and login_user function in server.php">
+      <created>1622615268362</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622615268362</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +135,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="do a bit editing on authenticate function" />
-    <option name="LAST_COMMIT_MESSAGE" value="do a bit editing on authenticate function" />
+    <MESSAGE value="login works perfectly, delete the authenticate.php and login_user function in server.php" />
+    <option name="LAST_COMMIT_MESSAGE" value="login works perfectly, delete the authenticate.php and login_user function in server.php" />
   </component>
 </project>

@@ -1,5 +1,11 @@
 <?php
+session_start();
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,19 +20,39 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script type="text/javascript" src="javascript.js"></script>
 
-    <title>New Event</title>
+    <title>Title</title>
 
 </head>
 <body>
-<?php
-include ('navbar.php'); // Includes the navbar, so each page has the same navbar.
-?>
+<div id="page"  class="container-lg">
+    <div class="jumbotron text-center">
+        <h1>Event Scheduler</h1>
+    </div>
+    <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link " href="mainscreen.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="newEvent.php">New task</a>
+                </li>
+            </ul>
 
+            <div class="searchInput">
+                <input id="searchBar" type="text" placeholder="Search..">
+                <div id="searchResults">
+                </div>
+            </div>
 
-<div id="container" class="container">
-    <div id="newEventForm">
-        <div id="createEventName">
-            <form id="eventNameForm">
+        </div>
+
+    </nav>
+
+    <div id="container" class="container">
+        <div id="newEventForm">
+            <div id="createEventName">
+                <form id="eventNameForm">
                 <div class="border-bottom pb-3 mt-3">
                     <div class="form-floating ">
                         <input id="eventNameInput" class="form-control" type="text" placeholder="Event Name" name="eventName" required="required" >
@@ -36,68 +62,68 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                         <button type="submit" for="eventNameForm">Submit</button>
                     </div>
                 </div>
-            </form>
+                </form>
+            </div>
+            <div id="restOfForm" style="display: none">
+                <form id="eventForm" class="col-8 mx-auto">
+                    <h1 id="eventName"></h1>
+
+                    <div class="mt-3">
+                        <label for="selectEventClusterDropdown" class="form-label">Select Event Cluster</label>
+                        <select name="eventCluster" class="form-select" id="selectEventClusterDropdown" required="required">
+                        </select>
+                    </div>
+
+
+
+                    <div class="mt-3">
+                        <label for="selectGroup" class="form-label">Select Computer Groups</label>
+                        <select name="group" id="selectGroup" class="form-select" multiple="multiple" required="required">
+                        </select>
+                        <div class="form-text">You can select multiple groups by holding down ctrl key on windows or the command key on Mac</div>
+                    </div>
+
+
+
+                    <div class="mt-3">
+                        <label for="dateInput" class="form-label">Date</label>
+                        <input type="date" id="dateInput" required="required">
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="startTimeInput" class="form-label">Start Time</label>
+                        <input type="time" id="startTimeInput" name="startTime" required="required">
+                    </div>
+
+
+
+                    <div class="mt-3">
+                        <label for="startTimeInputOffset" class="form-label">Start Time Offset</label>
+                        <input type="text" id="startTimeInputOffset" name="startTimeOffset" placeholder="-00:00:00">
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="eventLengthInput" class="form-label">Event Length</label>
+                        <input type="text" id="eventLengthInput" name="eventLengthInput" placeholder="00:00:00">
+                    </div>
+
+                    <div class="mt-3 mx-auto">
+                        <button type="submit" class="btn btn-primary" id="submitEvent" form="eventForm">Submit</button>
+                        <input type="hidden" name="event_id" value="" id="hiddenEventId">
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+
         </div>
-        <div id="restOfForm" style="display: none">
-            <form id="eventForm" class="col-8 mx-auto">
-                <h1 id="eventName"></h1>
-
-                <div class="mt-3">
-                    <label for="selectEventClusterDropdown" class="form-label">Select Event Cluster</label>
-                    <select name="eventCluster" class="form-select" id="selectEventClusterDropdown" required="required">
-                    </select>
-                </div>
-
-
-
-                <div class="mt-3">
-                    <label for="selectGroup" class="form-label">Select Computer Groups</label>
-                    <select name="group" id="selectGroup" class="form-select" multiple="multiple" required="required">
-                    </select>
-                    <div class="form-text">You can select multiple groups by holding down ctrl key on windows or the command key on Mac</div>
-                </div>
-
-
-
-                <div class="mt-3">
-                    <label for="dateInput" class="form-label">Date</label>
-                    <input type="date" id="dateInput" required="required">
-                </div>
-
-                <div class="mt-3">
-                    <label for="startTimeInput" class="form-label">Start Time</label>
-                    <input type="time" id="startTimeInput" name="startTime" required="required">
-                </div>
-
-
-
-                <div class="mt-3">
-                    <label for="startTimeInputOffset" class="form-label">Start Time Offset</label>
-                    <input type="text" id="startTimeInputOffset" name="startTimeOffset" placeholder="-00:00:00">
-                </div>
-
-                <div class="mt-3">
-                    <label for="eventLengthInput" class="form-label">Event Length</label>
-                    <input type="text" id="eventLengthInput" name="eventLengthInput" placeholder="00:00:00">
-                </div>
-
-                <div class="mt-3 mx-auto">
-                    <button type="submit" class="btn btn-primary" id="submitEvent" form="eventForm">Submit</button>
-                    <input type="hidden" name="event_id" value="" id="hiddenEventId">
-                </div>
-
-
-            </form>
-
-
-        </div>
-
 
 
     </div>
-
-
-</div>
 </div>
 
 
@@ -105,7 +131,6 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
 </body>
 
 </html>
-
 
 
 
