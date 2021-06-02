@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 24, 2021 at 01:17 AM
+-- Generation Time: Jun 02, 2021 at 11:04 PM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.11
 
@@ -198,11 +198,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `show_room_clients` (IN `p_room_name
 	ORDER BY position;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_event_action` (IN `timeOffset` VARCHAR(20), IN `clusterId` INT, IN `actionId` INT)  NO SQL
-BEGIN
-	UPDATE front_action set time_offset=timeOffset, cluster_id=clusterId where action_id = actionId;
-END$$
-
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -226,6 +221,8 @@ CREATE TABLE `front_action` (
 INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`, `activate`) VALUES
 (1, 1, '-00:05:00', 9, 1),
 (2, 1, '02:00:00', 9, 0),
+(3, 2, '00:00:00', 4, 1),
+(4, 2, '00:05:00', 4, 0),
 (5, 3, '-00:10:00', 3, 0),
 (6, 3, '-00:10:00', 4, 1),
 (7, 3, '02:00:00', 4, 0),
@@ -996,6 +993,10 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (794, 165, '-00:05:00', 23, 1),
 (795, 165, '00:30:00', 23, 0),
 (796, 165, '00:30:00', 3, 1),
+(797, 166, '-00:05:00', 3, 0),
+(798, 166, '-00:05:00', 23, 1),
+(799, 166, '00:30:00', 23, 0),
+(800, 166, '00:30:00', 3, 1),
 (801, 167, '-00:05:00', 3, 0),
 (802, 167, '-00:05:00', 4, 1),
 (803, 167, '03:00:00', 4, 0),
@@ -1024,10 +1025,10 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (827, 172, '-00:05:00', 4, 1),
 (828, 172, '01:00:00', 3, 1),
 (829, 172, '01:00:00', 4, 0),
-(854, 259, '-00:05:00', 3, 0),
-(855, 259, '-00:05:00', 23, 1),
-(856, 259, '02:00:00', 3, 1),
-(857, 259, '-00:20:00', 23, 0);
+(830, 174, '07:10:00', 3, 0),
+(831, 174, '07:10:00', 18, 1),
+(832, 174, '00:01:00', 3, 1),
+(833, 174, '00:01:00', 18, 0);
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1045,7 @@ CREATE TABLE `front_client` (
   `position` int(11) DEFAULT NULL,
   `ip_addr` char(24) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `default_printer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `front_client`
@@ -1403,6 +1404,8 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (36, 1, 7, 5, '08:00:00'),
 (37, 1, 7, 5, '11:00:00'),
 (38, 1, 7, 5, '14:00:00'),
+(39, 2, 19, 3, '08:39:00'),
+(40, 2, 19, 3, '09:15:00'),
 (41, 3, 6, 3, '10:00:00'),
 (42, 3, 6, 4, '10:00:00'),
 (43, 4, 6, 4, '11:00:00'),
@@ -2048,6 +2051,8 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (713, 164, 6, 5, '14:00:00'),
 (714, 164, 22, 5, '14:00:00'),
 (715, 165, 5, 3, '14:30:00'),
+(716, 166, 6, 3, '14:30:00'),
+(717, 166, 22, 3, '14:30:00'),
 (718, 167, 6, 2, '17:00:00'),
 (719, 167, 22, 2, '17:00:00'),
 (720, 168, 6, 3, '17:00:00'),
@@ -2062,13 +2067,7 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (729, 171, 6, 4, '11:00:00'),
 (730, 171, 22, 4, '11:00:00'),
 (731, 172, 5, 4, '20:00:00'),
-(761, 226, 16, 3, '18:13:00'),
-(762, 226, 1, 3, '18:13:00'),
-(763, 226, 23, 3, '18:13:00'),
-(764, 226, 5, 3, '18:13:00'),
-(781, 259, 5, 6, '11:38:00'),
-(782, 259, 6, 6, '11:38:00'),
-(783, 259, 22, 6, '11:38:00');
+(732, 174, 19, 6, '18:10:00');
 
 -- --------------------------------------------------------
 
@@ -2112,6 +2111,7 @@ CREATE TABLE `front_event` (
 
 INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (1, 'EMTH171-LabTestB', 1),
+(2, 'EMTH118-MapleTA-Test', 1),
 (3, 'EMTH118-MapleTA', 1),
 (4, 'EMTH119-MapleTA-1 hour', 1),
 (5, 'EMTH119-MapleTA-2 hour', 1),
@@ -2269,30 +2269,15 @@ INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (163, 'MATH110-19S2 Test Thursday', 1),
 (164, 'MATH110-19S1 Test Friday', 1),
 (165, 'MATH110-19S1 Test Wednesday E033', 1),
+(166, 'MATH110-19S1 Test Wednesday E035', 1),
 (167, 'EMTH210-20S1 3-hour', 1),
 (168, 'EMTH210-20S1 4-hour', 1),
 (169, 'EMTH210-20S1 2+hour', 1),
 (170, 'STAT101-20S1 Wednesday ', 1),
 (171, 'STAT101-20S1 Thursday ', 1),
 (172, 'EMTH210-20S1 1-hour', 1),
-(226, 'daved', 1),
-(228, 'mathdad', 1),
-(229, 'mathdads', 1),
-(233, 'math', 1),
-(234, 'Testing', 1),
-(242, 'testing1234', 1),
-(243, 'testing12345', 1),
-(245, 'asdljalskjdas', 1),
-(246, 'hi', 1),
-(247, 'tess', 1),
-(248, 'Hello', 1),
-(249, 'eee', 1),
-(250, 'heeeeee', 1),
-(251, 'Teeee', 1),
-(252, 'ajsdasd', 1),
-(253, 'ere', 1),
-(255, 'yeee', 1),
-(259, 'Testing134', 1);
+(173, 'mmm', 1),
+(174, 'COSC131 Final exam', 1);
 
 -- --------------------------------------------------------
 
@@ -2363,7 +2348,7 @@ CREATE TABLE `front_room` (
   `room_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `room_name` varchar(127) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `printer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `front_room`
@@ -2484,6 +2469,7 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (7, 1, 38, 2015),
 (8, 1, 40, 2015),
 (9, 1, 41, 2015),
+(11, 2, 29, 2015),
 (13, 3, 31, 2015),
 (14, 3, 37, 2015),
 (15, 3, 40, 2015),
@@ -2742,6 +2728,10 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (275, 164, 13, 2020),
 (276, 164, 22, 2020),
 (277, 165, 9, 2020),
+(278, 166, 11, 2020),
+(279, 166, 13, 2020),
+(280, 166, 18, 2020),
+(281, 166, 20, 2020),
 (282, 165, 22, 2020),
 (283, 167, 12, 2020),
 (284, 168, 12, 2020),
@@ -2749,8 +2739,7 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (286, 170, 12, 2020),
 (287, 171, 12, 2020),
 (288, 172, 12, 2020),
-(290, 226, 20, 2021),
-(298, 259, 20, 2021);
+(289, 174, 21, 2021);
 
 -- --------------------------------------------------------
 
@@ -2760,8 +2749,8 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
-  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `username` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(64) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2769,7 +2758,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`) VALUES
-(1, 'admin', '50e04656a6aa90c9c4d70f5a5ab2466c');
+(2, 'dal113', '$2y$10$KgDXovDC6Wy70xovEfBrSOJLU/U2JedWHaDevuLiD3zvLBG8XpGZO'),
+(3, 'admin', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -2819,10 +2809,10 @@ CREATE TABLE `vw_front_event` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_group_client` (
-     `mac` char(17)
-    ,`position` int(11)
-    ,`room_name` varchar(127)
-    ,`serial_no` varchar(128)
+`mac` char(17)
+,`position` int(11)
+,`room_name` varchar(127)
+,`serial_no` varchar(128)
 );
 
 -- --------------------------------------------------------
@@ -2934,7 +2924,8 @@ ALTER TABLE `front_weekly`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2944,7 +2935,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `front_action`
 --
 ALTER TABLE `front_action`
-  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=858;
+  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
 
 --
 -- AUTO_INCREMENT for table `front_cluster`
@@ -2956,13 +2947,13 @@ ALTER TABLE `front_cluster`
 -- AUTO_INCREMENT for table `front_daily`
 --
 ALTER TABLE `front_daily`
-  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=784;
+  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=733;
 
 --
 -- AUTO_INCREMENT for table `front_event`
 --
 ALTER TABLE `front_event`
-  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
+  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
 -- AUTO_INCREMENT for table `front_event_log`
@@ -2980,13 +2971,13 @@ ALTER TABLE `front_group`
 -- AUTO_INCREMENT for table `front_weekly`
 --
 ALTER TABLE `front_weekly`
-  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
+  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
