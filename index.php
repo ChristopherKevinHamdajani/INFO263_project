@@ -1,12 +1,9 @@
 <?php
-<<<<<<< HEAD:index.php
-=======
     session_start();
     if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         header("location: login.php");
         exit;
     }
->>>>>>> upstream/try_to_make_login_work:mainscreen.php
 ?>
 
 <!DOCTYPE html>
@@ -28,46 +25,9 @@
 </head>
 <body>
 
-<<<<<<< HEAD:index.php
 <?php
 include ('navbar.php'); // Includes the navbar, so each page has the same navbar.
 ?>
-=======
-<div id="page"  class="container-lg">
-    <div class="jumbotron text-center">
-        <h1>Event Scheduler</h1>
-    </div>
-    <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
-
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="mainscreen.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="newEvent.php">New task</a>
-                </li>
-            </ul>
-
-            <div class="searchInput">
-                <input id="searchBar" type="text" placeholder="Search..">
-                <div id="searchResults">
-                </div>
-            </div>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
-                </li>
-            </ul>
-
-        </div>
-
-    </nav>
-
-
-    <script>
-
->>>>>>> upstream/try_to_make_login_work:mainscreen.php
 
 
 
