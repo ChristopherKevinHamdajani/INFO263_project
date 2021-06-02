@@ -78,7 +78,6 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
 
 
 
-
 </body>
 
 </html>
