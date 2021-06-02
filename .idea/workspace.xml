@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on authenticate function">
-      <change afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authenticate.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newEvent.html" beforeDir="false" afterPath="$PROJECT_DIR$/newEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainscreen.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/newEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/newEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style1.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/style2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/style3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/upcomingScreen.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +92,7 @@
       <workItem from="1621565297593" duration="3597000" />
       <workItem from="1622604961809" duration="11000" />
       <workItem from="1622630435145" duration="2433000" />
+      <workItem from="1622674439993" duration="220000" />
     </task>
     <task id="LOCAL-00001" summary="do a bit editing on authenticate function">
       <created>1622415362299</created>
