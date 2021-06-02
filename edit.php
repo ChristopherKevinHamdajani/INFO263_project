@@ -1,3 +1,5 @@
+<?php
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,26 +16,13 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script type="text/javascript" src="javascript.js"></script>
 
-    <title>Title</title>
+    <title>Edit Event</title>
 
 </head>
 <body>
-<div id="page"  class="container-lg">
-    <div class="jumbotron text-center">
-        <h1 id="title">Event Scheduler</h1>
-    </div>
-    <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link " href="mainscreen.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="newEvent.html">New task</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<?php
+include ('navbar.php'); // Includes the navbar, so each page has the same navbar.
+?>
 
 
     <div id="container" class="container">
@@ -134,6 +123,7 @@
 </body>
 
 </html>
+
 
 
 

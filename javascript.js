@@ -6,14 +6,14 @@ let allEvents = [];
 /** Everything JSGrid related http://js-grid.com/docs/ **/
 
 let tableFields = [
-    {name: "event_id", title: "Id", type: "number"},
+    {name: "event_id", title: "Id", width:50, type: "number"},
     {name:"event_name", title: "Name", type: "text", width: 200},
-    {name: "cluster_name", title: "Client Configuration", type:"text"},
-    {name: "machine_group", title: "Clients", type: "text"},
+    {name: "cluster_name", title: "Client Configuration", type:"text", align: "center"},
+    {name: "machine_group", title: "Clients", type: "text", align: "center"},
     {name:"date", title:"Date", type:"text", width:70},
-    {name:"time", title: "Time", type: "text"},
-    {name:"activate", title: "Activate", type: "number"},
-    {title:"Control", type: "control"}
+    {name:"time", title: "Time", type: "text", align: "right"},
+    {name:"activate", title: "Activate", width: 50, type: "number"},
+    {title:"Control", type: "control", editButton: false}
 ];
 
 
@@ -43,11 +43,12 @@ $(document).on('mouseout', '.searchListItem', null, function(){
 $(document).on('click', '.searchListItem', null, function(){
     let event_name = this['id'];
     let command = {'command' : 'getEventsThatMatchName', 'eventName': event_name};
+
     $.post('server.php', command, function(data){
         let obj = JSON.parse(data)
         createTable(obj, tableFields)
     })
-
+    reloadEventTable = true;
 })
 
 
@@ -108,13 +109,14 @@ function createTable(data, fields){
         data: data,
         fields: fields,
         noDataContent: "No Events on this day/period",
+
         onItemDeleting: function(object){
             let eventId = object.item["event_id"]
             let command = {"command":"delete","event_id":eventId}
             $.post('server.php', command, function(data){
                 let obj = JSON.parse(data);
                 if (obj === "Success"){
-                    window.location.replace("mainscreen.html");
+                    window.location.replace("index.php");
                     alert("Event deleted successfully.")
                 }
             })
@@ -128,7 +130,7 @@ function createTable(data, fields){
 
     })
     function linkToEditPage(args){
-        window.location.replace("edit.html?date="+args.item["date"]+"&eventId=" + args.item["event_id"] + "&eventName=" + args.item["event_name"])
+        window.location.replace("edit.php?date="+args.item["date"]+"&eventId=" + args.item["event_id"] + "&eventName=" + args.item["event_name"])
     }
 }
 
@@ -155,32 +157,38 @@ function populateEventNumbers(){
         allEvents = makeArrayUniqueByEventId(obj)
         let eventIdSet = new Set();
 
+
+
         for (let i = 0; i < obj.length; i++) {
             eventIdSet.add(obj[i].event_id) // adds event_id to eventIdSet, compiles list/set of used event_id's
+
             let objYear = obj[i].date.slice(0, 4);
             let objMonth = obj[i].date.slice(5, 7);
             let objDate = obj[i].date.slice(8);
-            if (objDate[0] === 0) { // If date = 06, this makes it 6, needed for the Date Object
+            if (parseInt(objDate[0]) === 0) { // If date = 06, this makes it 6, needed for the Date Object
                 objDate = objDate[1]
 
             }
-            if (objMonth[0] === 0) { // Same as above, but for month.
+            if (parseInt(objMonth[0]) === 0) { // Same as above, but for month.
                 objMonth = objMonth[1]
 
             }
-            let dateOfEvent = new Date(objYear, objMonth, objDate)
-            if (currentDate.getTime() > dateOfEvent.getTime()) {
 
+            new Date()
+            let dateOfEvent = new Date(objYear, objMonth, objDate)
+            if (currentDate.getFullYear() > dateOfEvent.getFullYear()) {
                 completedEvents.push(obj[i])
-            } else if (currentDate.getTime() <= dateOfEvent.getTime()) {
+            } else if(currentDate.getMonth() > dateOfEvent.getMonth()){
+                completedEvents.push(obj[i])
+            } else if (currentDate.getDay() <= dateOfEvent.getDay()){
                 upcomingEvents.push(obj[i])
+
             }
-            //console.log(upcomingEvents)
+
             $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
             $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
             $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
         }
-
 
     })
 }
@@ -318,7 +326,7 @@ $(document).on("submit", '#eventForm', null, function(event){
 
     let command = {'command': "submitEvent","cluster_id": clusterId, "event_id": event_id, "eventLength" : eventLength, "date" : date, "time" : startTime, "offset": startTimeOffset, "machineGroups": machineGroups}
     $.post("server.php", command, function(){
-        window.location.replace("mainscreen.html");
+        window.location.replace("index.php");
         alert("Event created succesfully.")
     })
 
@@ -394,6 +402,7 @@ function searchBarInput(){
  */
 $(document).ready(function(){
     getEvents();
+
     populateEventNumbers()
     populateGroupSelectorDropdown("selectGroup");
     populateEventClusterServerCall("selectEventClusterDropdown");

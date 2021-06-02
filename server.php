@@ -567,7 +567,7 @@ function authenticate($username, $password, $conn) {
     while($row = $result->fetch_assoc()) {
 
         if (password_verify($password, $row["password"])) {
-            header("Location: mainscreen.html");
+            header("Location: index.php");
            }
         else {
             header("Location: login.php?error=Incorrect username or password");

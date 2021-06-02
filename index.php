@@ -1,3 +1,6 @@
+<?php
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,37 +20,10 @@
 </head>
 <body>
 
-<div id="page"  class="container-lg">
-    <div class="jumbotron text-center">
-        <h1>Event Scheduler</h1>
-    </div>
-    <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
+<?php
+include ('navbar.php'); // Includes the navbar, so each page has the same navbar.
+?>
 
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="mainscreen.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="newEvent.html">New task</a>
-                </li>
-            </ul>
-
-            <div class="searchInput">
-                <input id="searchBar" type="text" placeholder="Search..">
-                <div id="searchResults">
-                </div>
-            </div>
-
-        </div>
-
-    </nav>
-
-
-    <script>
-
-
-    </script>
 
 
     <div id="container" class="container">
