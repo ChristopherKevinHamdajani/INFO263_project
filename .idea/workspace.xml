@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on authenticate function">
-      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate.php" beforeDir="false" afterPath="$PROJECT_DIR$/authenticate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/server.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

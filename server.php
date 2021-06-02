@@ -547,31 +547,36 @@ function updateEventAction($conn, $actionId, $timeOffset, $clusterId){
     return "Updated";
 }
 
-function login_user($username, $password) {
+//function login_user($username, $password) {
+//    global $conn;
+//    if (empty($username)) {
+//        header("Location: login.php?error=Username is required");
+//    }
+//    else if (empty($password)) {
+//        header("Location: login.php?error=Password is required");
+//    }
+//    else {
+//        authenticate($username, $password, $conn);
+//    }
+//}
+
+/**
+ * A function to authenticate whether the username and the password inputted bu the user is stored in database
+ * Go to mainscreen.html if passed
+ * otherwise display error in login.php
+ * @param $username username input from user
+ * @param $password password inpit from the user
+ */
+function authenticate($username, $password) {
     global $conn;
-    if (empty($username)) {
-        header("Location: login.php?error=Username is required");
-    }
-    else if (empty($password)) {
-        header("Location: login.php?error=Password is required");
-    }
-    else {
-        authenticate($username, $password, $conn);
-    }
-}
-
-function authenticate($username, $password, $conn) {
-    $query = "SELECT * FROM user WHERE username='" . $username  . "'";
+    $query = "SELECT * FROM user WHERE username='" . $username  . "' and password='".md5($password)."'";
     $result = $conn->query($query);
-
-    while($row = $result->fetch_assoc()) {
-
-        if (password_verify($password, $row["password"])) {
-            header("Location: mainscreen.html");
-           }
-        else {
-            header("Location: login.php?error=Incorrect username or password");
-        }
+    $row = $result->fetch_assoc();
+    if (count($row)===0){
+        header("Location: login.php?error=Incorrect username or password");
+    }
+    else{
+        header("Location: mainscreen.html");
     }
 }
 
