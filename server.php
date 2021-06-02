@@ -549,11 +549,11 @@ function updateEventAction($conn, $actionId, $timeOffset, $clusterId){
 
 
 /**
- * A function to authenticate whether the username and the password inputted bu the user is stored in database
+ * A function to authenticate whether the username and the password inputted by the user is stored in database
  * Go to index.php if passed
  * otherwise display error in login.php
- * @param $username username input from user
- * @param $password password inpit from the user
+ * @param String $username username input from user
+ * @param String $password password input from the user
  */
 function authenticate($username, $password) {
     global $conn;
