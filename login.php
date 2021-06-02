@@ -16,26 +16,27 @@
 </head>
 
 <body>
-    <div class="d-flex justify-content-center align">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;" >
         <form class="p-5 rounded shadow"
+
               action="authenticate.php"
               method="post"
               style="width: 30rem">
-            <h1 class="text-center pb-5 display-4">LOGIN</h1>
+            <h1 class="text-center pb-5 display-4">Scheduler</h1>
             <?php if ($_GET['error']) {?>
             <div class="alert alert-danger" role="alert">
                 <?=$_GET['error']?>
             </div>
             <?php } ?>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input type="text" name="username" placeholder="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label for="inputName" class="form-label">Username</label>
+                <input type="text" name="username" placeholder="username" class="form-control" id="inputName" aria-describedby="username">
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" name="password" placeholder="password" class="form-control" id="exampleInputPassword1">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" name="password" placeholder="password" class="form-control" id="inputPassword">
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary" style="width: 24rem">Sign in</button>
         </form>
 
     </div>

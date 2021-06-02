@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on authenticate function">
-      <change beforePath="$PROJECT_DIR$/mainscreen.html" beforeDir="false" afterPath="$PROJECT_DIR$/mainscreen.html" afterDir="false" />
+    <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on login.php">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tutorial3" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -83,7 +83,6 @@
       <workItem from="1621542028241" duration="12047000" />
       <workItem from="1621563799896" duration="1343000" />
       <workItem from="1621565297593" duration="3597000" />
-      <workItem from="1622604961809" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="do a bit editing on authenticate function">
       <created>1622415362299</created>
