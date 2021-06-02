@@ -547,22 +547,10 @@ function updateEventAction($conn, $actionId, $timeOffset, $clusterId){
     return "Updated";
 }
 
-//function login_user($username, $password) {
-//    global $conn;
-//    if (empty($username)) {
-//        header("Location: login.php?error=Username is required");
-//    }
-//    else if (empty($password)) {
-//        header("Location: login.php?error=Password is required");
-//    }
-//    else {
-//        authenticate($username, $password, $conn);
-//    }
-//}
 
 /**
  * A function to authenticate whether the username and the password inputted bu the user is stored in database
- * Go to mainscreen.html if passed
+ * Go to mainscreen.php if passed
  * otherwise display error in login.php
  * @param $username username input from user
  * @param $password password inpit from the user
@@ -576,7 +564,9 @@ function authenticate($username, $password) {
         header("Location: login.php?error=Incorrect username or password");
     }
     else{
-        header("Location: mainscreen.html");
+        session_start();
+        $_SESSION['loggedin'] = true;
+        header("Location: mainscreen.php");
     }
 }
 

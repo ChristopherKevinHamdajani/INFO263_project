@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+        header("location: login.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,10 +34,10 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="mainscreen.html">Home</a>
+                    <a class="nav-link active" href="mainscreen.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="newEvent.html">New task</a>
+                    <a class="nav-link" href="newEvent.php">New task</a>
                 </li>
             </ul>
 
@@ -38,6 +46,11 @@
                 <div id="searchResults">
                 </div>
             </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
+            </ul>
 
         </div>
 

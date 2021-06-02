@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,10 +32,10 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link " href="mainscreen.html">Home</a>
+                    <a class="nav-link " href="mainscreen.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="newEvent.html">New task</a>
+                    <a class="nav-link active" href="newEvent.php">New task</a>
                 </li>
             </ul>
 

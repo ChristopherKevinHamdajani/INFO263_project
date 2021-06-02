@@ -114,7 +114,7 @@ function createTable(data, fields){
             $.post('server.php', command, function(data){
                 let obj = JSON.parse(data);
                 if (obj === "Success"){
-                    window.location.replace("mainscreen.html");
+                    window.location.replace("mainscreen.php");
                     alert("Event deleted successfully.")
                 }
             })
@@ -318,7 +318,7 @@ $(document).on("submit", '#eventForm', null, function(event){
 
     let command = {'command': "submitEvent","cluster_id": clusterId, "event_id": event_id, "eventLength" : eventLength, "date" : date, "time" : startTime, "offset": startTimeOffset, "machineGroups": machineGroups}
     $.post("server.php", command, function(){
-        window.location.replace("mainscreen.html");
+        window.location.replace("mainscreen.php");
         alert("Event created succesfully.")
     })
 
