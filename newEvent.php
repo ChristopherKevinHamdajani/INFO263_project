@@ -9,17 +9,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php
+    include ('header.php'); // Includes the header, so each page has the same header.
+    ?>
     <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/snpm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-    <script type="text/javascript" src="javascript.js"></script>
-
     <title>New Event</title>
 
 </head>
@@ -34,19 +27,19 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
         <div id="newEventForm">
             <div id="createEventName">
                 <form id="eventNameForm">
-                <div class="border-bottom pb-3 mt-3">
+                <div class="shadowAndBorder  p-3">
                     <div class="form-floating ">
                         <input id="eventNameInput" class="form-control" type="text" placeholder="Event Name" name="eventName" required="required" >
                         <label for="eventNameInput" class="form-label">Enter Event Name</label>
                     </div>
                     <div>
-                        <button type="submit" for="eventNameForm">Submit</button>
+                        <button type="submit" class="m-2 btn btn-primary"for="eventNameForm">Submit</button>
                     </div>
                 </div>
                 </form>
             </div>
             <div id="restOfForm" style="display: none">
-                <form id="eventForm" class="col-8 mx-auto">
+                <form id="eventForm " class="col-8 mx-auto">
                     <h1 id="eventName"></h1>
 
                     <div class="mt-3">

@@ -33,12 +33,6 @@ $(document).on('click', 'body', null, function() {
     }
 })
 
-$(document).on('mouseover', '.searchListItem', null, function(){
-    $(this).css('background-color', "yellow")
-})
-$(document).on('mouseout', '.searchListItem', null, function(){
-    $(this).css('background-color', "white")
-})
 
 $(document).on('click', '.searchListItem', null, function(){
     let event_name = this['id'];
@@ -94,7 +88,7 @@ $(document).on('click', '#completedEvents', null,function() {
 
 
 /**
- * Creates the table displayed on the mainpage using JSGrid.
+ * Creates the table displayed on the index page using JSGrid.
  * @param data The date for the table.
  * @param fields The fields for the table.
  */
@@ -395,6 +389,11 @@ function searchBarInput(){
         })
     }
 }
+
+
+
+
+
 
 
 /**

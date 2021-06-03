@@ -3,19 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-    <script type="text/javascript" src="javascript.js"></script>
-
+    <?php
+    include ('header.php'); // Includes the header, so each page has the same header.
+    ?>
     <title>Edit Event</title>
 
 </head>
@@ -26,7 +16,7 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
 
 
     <div id="container" class="container">
-        <div class="text-center">
+        <div id="eventTitle" class=" text-center mt-2">
             <h1 class="col-4 mx-auto" id="editPageEventName"></h1>
         </div>
 
@@ -59,7 +49,7 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
 
             function returnOnOrOff(number){
                 console.log(number)
-                if (number == 0){
+                if (number === 0){
                     return "off"
                 } else {
                     return "on"
@@ -67,16 +57,15 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             }
 
             function createEventActionsEdit(i,actionId, eventId, timeOffset, clusterId, activate){
-                let eventActionsDiv =
-                    "<div class='container mt-2 mb-2 col-5 shadow' id='editItemAction'><form id='formActionId"+ actionId +"'class='formActionChange'>" +
-                    "<div class='row'><p class='col-4 mx-auto'>Action Id:"+ actionId + "</p></div>" +
-                    "<div class='row'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset"+ i +"'></div>" +
+                return "<div class='container mt-2 mb-2 col-5 ' id='editItemAction'><form id='formActionId" + actionId + "'class='formActionChange'>" +
+                    "<div class='row'><p class='col-4 mx-auto'>Action Id:" + actionId + "</p></div>" +
+                    "<div class='row'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset" + i + "'></div>" +
                     "<div class='row'><p class='col-6'>Cluster</p><select name='clusterSelect' class='col-5' id=selector" + actionId + "></select></div>" +
-                    "<div class='row'><p class='col-6'>Cluster State at time offset</p><p class='col-6'>"+returnOnOrOff(activate)+"</p></div>" +
-                    "<div class='row'><button type='submit' for='formActionId"+ actionId+"' id="+ actionId + " class='btn mb-2 col-6 mx-auto btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='"+actionId+"' name='actionId'></div>" +
-                    "</form></div>"
-                return eventActionsDiv;
+                    "<div class='row'><p class='col-6'>Cluster State at time offset</p><p class='col-6'>" + returnOnOrOff(activate) + "</p></div>" +
+                    "<div class='row'><button type='submit' for='formActionId" + actionId + "' id=" + actionId + " class='btn mb-2 col-6 mx-auto btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='" + actionId + "' name='actionId'></div>" +
+                    "</form></div>";
             }
+
             let command = {'command' :'getEventActions', 'event_id' : eventId};
             $.post('server.php', command, function(data){
                 let obj = JSON.parse(data)
@@ -106,7 +95,7 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                 event.preventDefault()
                 let command = {'command' :'updateEventAction', 'action_id' : actionId, 'cluster_id': clusterId, 'time_offset': timeOffset};
                 $.post('server.php', command, function(data) {
-                    window.location.replace("edit.html" + queryString);
+                    window.location.replace("edit.php" + queryString);
                     alert("Event updated succesfully.")
                 })
 
