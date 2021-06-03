@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 24, 2021 at 01:17 AM
+-- Generation Time: Jun 03, 2021 at 04:08 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.11
 
@@ -26,132 +26,137 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_action` (IN `id` INT, IN `cluster` INT, IN `offset` TIME, IN `length` TIME)  BEGIN
-	insert into front_action (event_id, time_offset, cluster_id, activate) values (id, offset, 3, 0);
-    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, offset, cluster, 1);
-    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, length, cluster, 0);
-    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, length, 3, 1);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_action` (IN `id` INT, IN `cluster` INT, IN `offset` TIME, IN `length` TIME)  BEGIN	
+	insert into front_action (event_id, time_offset, cluster_id, activate) values (id, offset, 3, 0);	
+    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, offset, cluster, 1);	
+    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, length, cluster, 0);	
+    insert into front_action (event_id, time_offset, cluster_id, activate) values (id, length, 3, 1);	
 END$$
 
-CREATE DEFINER=`admin`@`localhost` PROCEDURE `add_client` (IN `p_room_name` VARCHAR(127), IN `p_group_name` VARCHAR(127), IN `p_mac` VARCHAR(127), IN `p_serial_no` VARCHAR(127), IN `p_position` INT UNSIGNED)  BEGIN
-	INSERT INTO front_client (mac, group_id, room_id, serial_no, position)
-	VALUES (
-		p_mac,
-		(SELECT group_id FROM front_group WHERE machine_group = p_group_name),
-		(SELECT room_id FROM front_room WHERE room_name = p_room_name),
-		p_serial_no, p_position);
+CREATE DEFINER=`admin`@`localhost` PROCEDURE `add_client` (IN `p_room_name` VARCHAR(127), IN `p_group_name` VARCHAR(127), IN `p_mac` VARCHAR(127), IN `p_serial_no` VARCHAR(127), IN `p_position` INT UNSIGNED)  BEGIN	
+	INSERT INTO front_client (mac, group_id, room_id, serial_no, position)	
+	VALUES (	
+		p_mac,	
+		(SELECT group_id FROM front_group WHERE machine_group = p_group_name),	
+		(SELECT room_id FROM front_room WHERE room_name = p_room_name),	
+		p_serial_no, p_position);	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_daily` (IN `id` INT, IN `group_id` VARCHAR(255), IN `day` INT, IN `start` TIME)  BEGIN
-	insert into front_daily (event_id, group_id, day_of_week, start_time) values (id, group_id, day, start);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_daily` (IN `id` INT, IN `group_id` VARCHAR(255), IN `day` INT, IN `start` TIME)  BEGIN	
+	insert into front_daily (event_id, group_id, day_of_week, start_time) values (id, group_id, day, start);	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_event_week` (IN `name` VARCHAR(255), IN `id` INT, IN `week` INT, IN `year` INT)  BEGIN
-	insert into front_event (event_name, status) values (name, 1);
-    insert into front_weekly (event_id, week_of_year, event_year) values (id, week, year);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_event_week` (IN `name` VARCHAR(255), IN `id` INT, IN `week` INT, IN `year` INT)  BEGIN	
+	insert into front_event (event_name, status) values (name, 1);	
+    insert into front_weekly (event_id, week_of_year, event_year) values (id, week, year);	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_from_id` (IN `eventId` INT)  NO SQL
-BEGIN
-	Delete from front_action where event_id=eventId;
-	Delete from front_daily where event_id = eventId;
-	Delete from front_weekly where event_id = eventId;
-	Delete from front_event where event_id = eventId;
+BEGIN	
+	Delete from front_action where event_id=eventId;	
+	Delete from front_daily where event_id = eventId;	
+	Delete from front_weekly where event_id = eventId;	
+	Delete from front_event where event_id = eventId;	
 END$$
 
-CREATE DEFINER=`admin`@`localhost` PROCEDURE `disable_cluster` (IN `in_cluster_name` CHAR(128), IN `in_machine_group` CHAR(100))  BEGIN
-        update front_cluster_instance ci
-        join front_cluster c on ci.cluster_id = c.cluster_id
-        join front_group g on ci.group_id = g.group_id
-        set active = 0 where cluster_name = in_cluster_name
-        and machine_group = in_machine_group;
-
+CREATE DEFINER=`admin`@`localhost` PROCEDURE `disable_cluster` (IN `in_cluster_name` CHAR(128), IN `in_machine_group` CHAR(100))  BEGIN	
+        update front_cluster_instance ci	
+        join front_cluster c on ci.cluster_id = c.cluster_id	
+        join front_group g on ci.group_id = g.group_id	
+        set active = 0 where cluster_name = in_cluster_name	
+        and machine_group = in_machine_group;	
 END$$
 
-CREATE DEFINER=`admin`@`localhost` PROCEDURE `enable_cluster` (IN `in_cluster_name` CHAR(128), IN `in_machine_group` CHAR(100))  BEGIN
-	update front_cluster_instance ci
-	join front_cluster c on ci.cluster_id = c.cluster_id
-	join front_group g on ci.group_id = g.group_id
-	set active = 1 where cluster_name = in_cluster_name
-	and machine_group = in_machine_group;
-
+CREATE DEFINER=`admin`@`localhost` PROCEDURE `enable_cluster` (IN `in_cluster_name` CHAR(128), IN `in_machine_group` CHAR(100))  BEGIN	
+	update front_cluster_instance ci	
+	join front_cluster c on ci.cluster_id = c.cluster_id	
+	join front_group g on ci.group_id = g.group_id	
+	set active = 1 where cluster_name = in_cluster_name	
+	and machine_group = in_machine_group;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_clusters` ()  NO SQL
-BEGIN
-	SELECT * FROM front_cluster ORDER BY cluster_name;
+BEGIN	
+	SELECT * FROM front_cluster ORDER BY cluster_name;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_events_that_match_name` (IN `eventName` VARCHAR(60))  NO SQL
-BEGIN
-	SELECT * from vw_display_view where event_name = eventName;
+BEGIN	
+	SELECT * from vw_display_view where event_name = eventName;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_event_id` ()  NO SQL
-BEGIN
-	SELECT DISTINCT event_id, event_name from vw_display_view ORDER by event_id;
+BEGIN	
+	SELECT DISTINCT event_id, event_name from vw_display_view ORDER by event_id;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_events_on_date` (IN `date_input` DATE)  NO SQL
-BEGIN
-	SELECT * FROM vw_display_view WHERE date = date_input;
+BEGIN	
+	SELECT * FROM vw_display_view WHERE date = date_input;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_events_on_date_to_date` (IN `startDate` DATE, IN `endDate` DATE)  NO SQL
-BEGIN
-	SELECT * FROM vw_display_view where date BETWEEN startDate and endDate order by date, event_name;
+BEGIN	
+	SELECT * FROM vw_display_view where date BETWEEN startDate and endDate order by date, event_name;	
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_actions` (IN `eventId` INT)  NO SQL
+BEGIN	
+	Select * from front_action where event_id=eventId;	
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_by_string` (IN `findString` VARCHAR(60))  NO SQL
+BEGIN	
+	select event_name from vw_front_event where event_name like findString order by date, cluster_id, group_id;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_from_id` (IN `event_id_input` INT)  NO SQL
-BEGIN
-	SELECT * FROM vw_front_event where event_id_input = event_id;
+BEGIN	
+	SELECT * FROM vw_front_event where event_id_input = event_id;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_id` (IN `event` VARCHAR(60))  NO SQL
-BEGIN
-	SELECT * FROM front_event where event = event_name;
+BEGIN	
+	SELECT * FROM front_event where event = event_name;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_event_names` ()  NO SQL
-BEGIN
-	SELECT * from front_event ORDER BY event_name;
+BEGIN	
+	SELECT * from front_event ORDER BY event_name;	
 END$$
 
-CREATE DEFINER=`cluster_admin`@`localhost` PROCEDURE `get_front` (IN `mac_address` CHAR(17))  BEGIN
-
-SET @mac = LOWER(mac_address);
-
-SET @sql = CONCAT('( ',
-                  'SELECT mac ',
-                  '     , machine_group ',
-                  '     , version ',
-                  '     , config ' ,
-                  '     , message ',
-                  '     , 1 AS has_config ',
-                  'FROM vw_front_clients ',
-                  'WHERE mac = ? ',
-                  ') ',
-                  'UNION ',
-                  '( ',
-                  'SELECT ? AS mac ',
-                  '     , machine_group ',
-                  '     , config ' ,
-                  '     , message ',
-                  '     , 0 AS has_config ',
-                  'FROM vw_front_groups ',
-                  'WHERE machine_group = \'Default\' ',
-                  ') ',
-                  'LIMIT 1 ',
-                  ';');
-PREPARE userStmt FROM @sql;
-EXECUTE userStmt USING @mac, @mac;
-DEALLOCATE PREPARE userStmt;
-
+CREATE DEFINER=`cluster_admin`@`localhost` PROCEDURE `get_front` (IN `mac_address` CHAR(17))  BEGIN	
+SET @mac = LOWER(mac_address);	
+SET @sql = CONCAT('( ',	
+                  'SELECT mac ',	
+                  '     , machine_group ',	
+                  '     , version ',	
+                  '     , config ' ,	
+                  '     , message ',	
+                  '     , 1 AS has_config ',	
+                  'FROM vw_front_clients ',	
+                  'WHERE mac = ? ',	
+                  ') ',	
+                  'UNION ',	
+                  '( ',	
+                  'SELECT ? AS mac ',	
+                  '     , machine_group ',	
+                  '     , config ' ,	
+                  '     , message ',	
+                  '     , 0 AS has_config ',	
+                  'FROM vw_front_groups ',	
+                  'WHERE machine_group = \'Default\' ',	
+                  ') ',	
+                  'LIMIT 1 ',	
+                  ';');	
+PREPARE userStmt FROM @sql;	
+EXECUTE userStmt USING @mac, @mac;	
+DEALLOCATE PREPARE userStmt;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_groups` ()  NO SQL
-BEGIN
-	SELECT * FROM front_group ORDER BY machine_group;
+BEGIN	
+	SELECT * FROM front_group ORDER BY machine_group;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_into_front_action` (IN `event_id` INT, IN `time_offset` VARCHAR(64), IN `cluster_id` INT, IN `activate` INT)  NO SQL
@@ -161,46 +166,44 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_into_front_daily` (IN `event
 insert into front_daily (event_id, group_id, day_of_week, start_time) values (event_id, group_id, day_of_week, start_time)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_into_front_event` (IN `event_name` TEXT)  NO SQL
-BEGIN
-	insert into front_event (event_name, status) values (event_name, 1);
+BEGIN	
+	insert into front_event (event_name, status) values (event_name, 1);	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_into_front_weekly` (IN `event_id` INT, IN `week_of_year` INT, IN `event_year` INT)  NO SQL
-BEGIN
-	insert into front_weekly (event_id, week_of_year, event_year) values (event_id, week_of_year, event_year);
+BEGIN	
+	insert into front_weekly (event_id, week_of_year, event_year) values (event_id, week_of_year, event_year);	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `register_client_ip` (IN `p_mac` VARCHAR(127), IN `p_ip` VARCHAR(127))  BEGIN
-
-	UPDATE front_client SET ip_addr = p_ip
-	WHERE mac = p_mac;
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `register_client_ip` (IN `p_mac` VARCHAR(127), IN `p_ip` VARCHAR(127))  BEGIN	
+	UPDATE front_client SET ip_addr = p_ip	
+	WHERE mac = p_mac;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `select_all_display_view` ()  NO SQL
-BEGIN
-	select * from vw_display_view order by event_id, date DESC;
+BEGIN	
+	select * from vw_display_view order by event_id, date DESC;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `select_event_from_id` (IN `EventId` INT)  NO SQL
-BEGIN
-	SELECT DISTINCT time_offset, event_id, event_name, date, time from vw_display_view where event_id=eventId and cluster_name != "labs" ORDER by date;
+BEGIN	
+	SELECT DISTINCT time_offset, event_id, event_name, date, time from vw_display_view where event_id=eventId and cluster_name != "labs" ORDER by date;	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `show_rooms` ()  BEGIN
-	SELECT room_name FROM front_room ORDER BY room_name;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `show_rooms` ()  BEGIN	
+	SELECT room_name FROM front_room ORDER BY room_name;	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `show_room_clients` (IN `p_room_name` VARCHAR(127))  BEGIN
-        SELECT mac, serial_no, position
-	FROM vw_front_group_client
-	WHERE room_name = p_room_name
-	ORDER BY position;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `show_room_clients` (IN `p_room_name` VARCHAR(127))  BEGIN	
+        SELECT mac, serial_no, position	
+	FROM vw_front_group_client	
+	WHERE room_name = p_room_name	
+	ORDER BY position;	
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_event_action` (IN `timeOffset` VARCHAR(20), IN `clusterId` INT, IN `actionId` INT)  NO SQL
-BEGIN
-	UPDATE front_action set time_offset=timeOffset, cluster_id=clusterId where action_id = actionId;
+BEGIN	
+	UPDATE front_action set time_offset=timeOffset, cluster_id=clusterId where action_id = actionId;	
 END$$
 
 DELIMITER ;
@@ -226,6 +229,8 @@ CREATE TABLE `front_action` (
 INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`, `activate`) VALUES
 (1, 1, '-00:05:00', 9, 1),
 (2, 1, '02:00:00', 9, 0),
+(3, 2, '00:00:00', 4, 1),
+(4, 2, '00:05:00', 4, 0),
 (5, 3, '-00:10:00', 3, 0),
 (6, 3, '-00:10:00', 4, 1),
 (7, 3, '02:00:00', 4, 0),
@@ -996,6 +1001,10 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (794, 165, '-00:05:00', 23, 1),
 (795, 165, '00:30:00', 23, 0),
 (796, 165, '00:30:00', 3, 1),
+(797, 166, '-00:05:00', 3, 0),
+(798, 166, '-00:05:00', 23, 1),
+(799, 166, '00:30:00', 23, 0),
+(800, 166, '00:30:00', 3, 1),
 (801, 167, '-00:05:00', 3, 0),
 (802, 167, '-00:05:00', 4, 1),
 (803, 167, '03:00:00', 4, 0),
@@ -1024,10 +1033,10 @@ INSERT INTO `front_action` (`action_id`, `event_id`, `time_offset`, `cluster_id`
 (827, 172, '-00:05:00', 4, 1),
 (828, 172, '01:00:00', 3, 1),
 (829, 172, '01:00:00', 4, 0),
-(854, 259, '-00:05:00', 3, 0),
-(855, 259, '-00:05:00', 23, 1),
-(856, 259, '02:00:00', 3, 1),
-(857, 259, '-00:20:00', 23, 0);
+(830, 174, '07:10:00', 3, 0),
+(831, 174, '07:10:00', 18, 1),
+(832, 174, '00:01:00', 3, 1),
+(833, 174, '00:01:00', 18, 0);
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1053,7 @@ CREATE TABLE `front_client` (
   `position` int(11) DEFAULT NULL,
   `ip_addr` char(24) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `default_printer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `front_client`
@@ -1403,6 +1412,8 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (36, 1, 7, 5, '08:00:00'),
 (37, 1, 7, 5, '11:00:00'),
 (38, 1, 7, 5, '14:00:00'),
+(39, 2, 19, 3, '08:39:00'),
+(40, 2, 19, 3, '09:15:00'),
 (41, 3, 6, 3, '10:00:00'),
 (42, 3, 6, 4, '10:00:00'),
 (43, 4, 6, 4, '11:00:00'),
@@ -2048,6 +2059,8 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (713, 164, 6, 5, '14:00:00'),
 (714, 164, 22, 5, '14:00:00'),
 (715, 165, 5, 3, '14:30:00'),
+(716, 166, 6, 3, '14:30:00'),
+(717, 166, 22, 3, '14:30:00'),
 (718, 167, 6, 2, '17:00:00'),
 (719, 167, 22, 2, '17:00:00'),
 (720, 168, 6, 3, '17:00:00'),
@@ -2062,13 +2075,7 @@ INSERT INTO `front_daily` (`daily_id`, `event_id`, `group_id`, `day_of_week`, `s
 (729, 171, 6, 4, '11:00:00'),
 (730, 171, 22, 4, '11:00:00'),
 (731, 172, 5, 4, '20:00:00'),
-(761, 226, 16, 3, '18:13:00'),
-(762, 226, 1, 3, '18:13:00'),
-(763, 226, 23, 3, '18:13:00'),
-(764, 226, 5, 3, '18:13:00'),
-(781, 259, 5, 6, '11:38:00'),
-(782, 259, 6, 6, '11:38:00'),
-(783, 259, 22, 6, '11:38:00');
+(732, 174, 19, 6, '18:10:00');
 
 -- --------------------------------------------------------
 
@@ -2112,6 +2119,7 @@ CREATE TABLE `front_event` (
 
 INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (1, 'EMTH171-LabTestB', 1),
+(2, 'EMTH118-MapleTA-Test', 1),
 (3, 'EMTH118-MapleTA', 1),
 (4, 'EMTH119-MapleTA-1 hour', 1),
 (5, 'EMTH119-MapleTA-2 hour', 1),
@@ -2269,30 +2277,17 @@ INSERT INTO `front_event` (`event_id`, `event_name`, `status`) VALUES
 (163, 'MATH110-19S2 Test Thursday', 1),
 (164, 'MATH110-19S1 Test Friday', 1),
 (165, 'MATH110-19S1 Test Wednesday E033', 1),
+(166, 'MATH110-19S1 Test Wednesday E035', 1),
 (167, 'EMTH210-20S1 3-hour', 1),
 (168, 'EMTH210-20S1 4-hour', 1),
 (169, 'EMTH210-20S1 2+hour', 1),
 (170, 'STAT101-20S1 Wednesday ', 1),
 (171, 'STAT101-20S1 Thursday ', 1),
 (172, 'EMTH210-20S1 1-hour', 1),
-(226, 'daved', 1),
-(228, 'mathdad', 1),
-(229, 'mathdads', 1),
-(233, 'math', 1),
-(234, 'Testing', 1),
-(242, 'testing1234', 1),
-(243, 'testing12345', 1),
-(245, 'asdljalskjdas', 1),
-(246, 'hi', 1),
-(247, 'tess', 1),
-(248, 'Hello', 1),
-(249, 'eee', 1),
-(250, 'heeeeee', 1),
-(251, 'Teeee', 1),
-(252, 'ajsdasd', 1),
-(253, 'ere', 1),
-(255, 'yeee', 1),
-(259, 'Testing134', 1);
+(173, 'mmm', 1),
+(174, 'COSC131 Final exam', 1),
+(176, 'Test', 1),
+(177, 'Testing', 1);
 
 -- --------------------------------------------------------
 
@@ -2363,7 +2358,7 @@ CREATE TABLE `front_room` (
   `room_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `room_name` varchar(127) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `printer_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `front_room`
@@ -2484,6 +2479,7 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (7, 1, 38, 2015),
 (8, 1, 40, 2015),
 (9, 1, 41, 2015),
+(11, 2, 29, 2015),
 (13, 3, 31, 2015),
 (14, 3, 37, 2015),
 (15, 3, 40, 2015),
@@ -2742,6 +2738,10 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (275, 164, 13, 2020),
 (276, 164, 22, 2020),
 (277, 165, 9, 2020),
+(278, 166, 11, 2020),
+(279, 166, 13, 2020),
+(280, 166, 18, 2020),
+(281, 166, 20, 2020),
 (282, 165, 22, 2020),
 (283, 167, 12, 2020),
 (284, 168, 12, 2020),
@@ -2749,8 +2749,7 @@ INSERT INTO `front_weekly` (`weekly_id`, `event_id`, `week_of_year`, `event_year
 (286, 170, 12, 2020),
 (287, 171, 12, 2020),
 (288, 172, 12, 2020),
-(290, 226, 20, 2021),
-(298, 259, 20, 2021);
+(289, 174, 21, 2021);
 
 -- --------------------------------------------------------
 
@@ -2769,7 +2768,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`) VALUES
-(1, 'admin', '50e04656a6aa90c9c4d70f5a5ab2466c');
+(2, 'dal113', '$2y$10$KgDXovDC6Wy70xovEfBrSOJLU/U2JedWHaDevuLiD3zvLBG8XpGZO'),
+(3, 'admin', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -2778,15 +2778,15 @@ INSERT INTO `user` (`user_id`, `username`, `password`) VALUES
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_display_view` (
-`activate` int(11) unsigned
+`event_name` varchar(255)
 ,`cluster_name` varchar(128)
 ,`date` date
-,`event_id` int(11) unsigned
-,`event_name` varchar(255)
-,`group_id` int(10) unsigned
-,`machine_group` varchar(100)
 ,`time` time
+,`activate` int(11) unsigned
+,`machine_group` varchar(100)
 ,`time_offset` time
+,`event_id` int(11) unsigned
+,`group_id` int(10) unsigned
 );
 
 -- --------------------------------------------------------
@@ -2796,20 +2796,20 @@ CREATE TABLE `vw_display_view` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_event` (
-`action_id` int(11) unsigned
-,`activate` int(11) unsigned
-,`cluster_id` int(11) unsigned
+`event_name` varchar(255)
 ,`cluster_name` varchar(128)
-,`daily_id` int(11)
-,`date` date
-,`date_ran` timestamp
-,`event_id` int(11) unsigned
-,`event_name` varchar(255)
-,`group_id` int(10) unsigned
+,`cluster_id` int(11) unsigned
 ,`machine_group` varchar(100)
-,`status` int(11)
+,`group_id` int(10) unsigned
+,`date` date
 ,`time` time
+,`activate` int(11) unsigned
+,`event_id` int(11) unsigned
+,`action_id` int(11) unsigned
+,`daily_id` int(11)
 ,`weekly_id` int(11) unsigned
+,`status` int(11)
+,`date_ran` timestamp
 );
 
 -- --------------------------------------------------------
@@ -2819,10 +2819,6 @@ CREATE TABLE `vw_front_event` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_group_client` (
-     `mac` char(17)
-    ,`position` int(11)
-    ,`room_name` varchar(127)
-    ,`serial_no` varchar(128)
 );
 
 -- --------------------------------------------------------
@@ -2934,7 +2930,8 @@ ALTER TABLE `front_weekly`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2944,7 +2941,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `front_action`
 --
 ALTER TABLE `front_action`
-  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=858;
+  MODIFY `action_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
 
 --
 -- AUTO_INCREMENT for table `front_cluster`
@@ -2956,13 +2953,13 @@ ALTER TABLE `front_cluster`
 -- AUTO_INCREMENT for table `front_daily`
 --
 ALTER TABLE `front_daily`
-  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=784;
+  MODIFY `daily_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=733;
 
 --
 -- AUTO_INCREMENT for table `front_event`
 --
 ALTER TABLE `front_event`
-  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
+  MODIFY `event_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `front_event_log`
@@ -2980,13 +2977,13 @@ ALTER TABLE `front_group`
 -- AUTO_INCREMENT for table `front_weekly`
 --
 ALTER TABLE `front_weekly`
-  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
+  MODIFY `weekly_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

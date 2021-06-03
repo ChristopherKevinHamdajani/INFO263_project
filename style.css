@@ -1,38 +1,151 @@
+/* General CSS */
+#page{
+    background-color: #f8f9fa;
+    overflow: auto;
+    height: 95%;
+    box-shadow:  -20px 20px 60px #c4c4c4,
+    20px -20px 60px #ffffff;
+    border-radius: 10px;
+}
+
+.subtleShadow{
+    box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
+}
+
+.shadowAndBorder{
+    box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
+    border-radius: 5px;
+}
+
+.innerShadow{
+    box-shadow: rgba(0, 0, 0, 0.16) inset 3px 0 6px, rgba(0, 0, 0, 0.23)inset 3px 0 6px;
+}
+.shadow{
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px, rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+}
+
+.robotoButton{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    color: #f1faee;
+}
+
+
+/* Element Css Selectors */
 body{
     background-color: #fafafa !important;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#page{
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+svg{
+    fill: #ff9f1c;
 }
 
-#title{
-    color: #FF9900!important;
-    font-family: 'Lobster', cursive;
-    font-size: 50px;
 
+
+
+
+
+
+
+
+
+
+
+/* NavBar */
+#navbar a{
+    color: white;
+    transition: all 0.2s;
+    will-change: transform;
+
+}
+#navbar a:hover{
+
+
+    transform: scale(1.01);
+    color: #f8961e;
+}
+
+#navbar{
+    background-color: #212529;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    border-radius: 5px;
+
+}
+
+#logo{
+    width: 610px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Index Page */
+
+#table{
+    box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+#eventNumberContainer{
+    box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
+    border-radius: 5px;
+    will-change: transform;
+}
+
+#searchFor{
+    box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
+    margin-top: 4px;
+    border-radius: 5px;
 }
 
 #mainTable{
     height: 100%;
-}
 
-#navbar{
-    height: 50px;
 }
-
 
 #searchResults{
-
+    transform: translateY(35px);
     position: absolute;
     z-index: 100;
     background-color: white;
+    padding: 10px;
+}
+#searchResults a{
+    text-decoration: none;
+    color: black ;
+}
+#searchResults a:hover{
+    color: #f8961e;
 }
 
 #searchResults li{
+    list-style-type: none;
 
 }
+
 .eventBox{
     display: flex;
     flex-direction: row;
@@ -43,6 +156,7 @@ body{
 .currentEvents{
     background-color: rgba(230, 57, 70, 0.8);
 }
+
 
 
 .homepageButtons{
@@ -56,14 +170,6 @@ body{
     cursor: pointer;
 
 }
-.innerShadow{
-    box-shadow: rgba(0, 0, 0, 0.16) inset 3px 0px 6px, rgba(0, 0, 0, 0.23)inset 3px 0px 6px;
-}
-.shadow{
-    box-shadow: rgba(0, 0, 0, 0.16) 3px 0px 6px, rgba(0, 0, 0, 0.23) 3px 0px 6px;
-}
-
-
 
 .homepageButtonNumber{
     opacity: 80%;
@@ -88,19 +194,6 @@ body{
 .completedEvents{
     background-color: rgba(69, 157, 103, 0.8);
 }
-.robotoButton{
-    font-family: 'Roboto Condensed', sans-serif;
-    font-weight: bold;
-    font-size: 1em;
-    color: #f1faee;
-}
-#allEventsButton, #upcomingEventsButton, #completedEvents{
-    transition: transform 150ms;
-}
-#allEventsButton:hover, #upcomingEventsButton:hover, #completedEvents:hover{
-    transform: scale(1.01);
-}
-
 
 .menuButtons{
     font-family: 'Roboto Condensed', sans-serif;
@@ -123,20 +216,81 @@ body{
     transition: transform 450ms;
 
 }
-
-.menuButtons button:hover{
-    background-color: #1D3557;
-    transform: translateY(2px);
+#allEventsButton, #upcomingEventsButton, #completedEvents{
     transition: transform 150ms;
-
-    cursor: pointer;
+}
+#allEventsButton:hover, #upcomingEventsButton:hover, #completedEvents:hover{
+    transform: scale(1.01);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Login Page */
+#loginPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginBox{
+    box-shadow:  -20px 20px 60px #c4c4c4,
+    20px -20px 60px #ffffff;
+    padding: 30px;
+    height: 400px;
+    width: 400px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Edit Page */
 
 #editItemAction{
-    background-color: #bae8e8;
-    border:solid 1px #272343;
-    border-radius: 3px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 }
+
+#eventTitle h1{
+    font-family: 'Arvo', serif;
+}
+
+
+
+
+
+
+
+
+
+
 
 
