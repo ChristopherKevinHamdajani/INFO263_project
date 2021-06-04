@@ -157,6 +157,9 @@ svg{
     background-color: rgba(230, 57, 70, 0.8);
 }
 
+.currentlyHappening{
+    background-color: rgba(248, 150, 30, 0.8);
+}
 
 
 .homepageButtons{
@@ -216,10 +219,10 @@ svg{
     transition: transform 450ms;
 
 }
-#allEventsButton, #upcomingEventsButton, #completedEvents{
+#allEventsButton, #upcomingEventsButton, #completedEvents #currentlyHappening{
     transition: transform 150ms;
 }
-#allEventsButton:hover, #upcomingEventsButton:hover, #completedEvents:hover{
+#allEventsButton:hover, #upcomingEventsButton:hover, #completedEvents:hover ,#currentlyHappening:hover{
     transform: scale(1.01);
 }
 
@@ -284,6 +287,11 @@ svg{
 }
 
 
+.editPara{
+    box-shadow: rgba(0, 0, 0, 0.16) inset 3px 0 6px, rgba(0, 0, 0, 0.23)inset 3px 0 6px;
+
+    border-radius: 5px;
+}
 
 
 

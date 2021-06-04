@@ -38,14 +38,15 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                 </div>
                 </form>
             </div>
-            <div id="restOfForm" style="display: none">
-                <form id="eventForm " class="col-8 mx-auto">
+            <div id="restOfForm" style="display: none" novalidate>
+                <form id="eventForm" class="col-8 mx-auto" >
                     <h1 id="eventName"></h1>
 
                     <div class="mt-3">
                         <label for="selectEventClusterDropdown" class="form-label">Select Event Cluster</label>
-                        <select name="eventCluster" class="form-select" id="selectEventClusterDropdown" required="required">
+                        <select name="eventCluster" class="form-select " id="selectEventClusterDropdown" required="required">
                         </select>
+
                     </div>
 
 
@@ -55,31 +56,46 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                         <select name="group" id="selectGroup" class="form-select" multiple="multiple" required="required">
                         </select>
                         <div class="form-text">You can select multiple groups by holding down ctrl key on windows or the command key on Mac</div>
+
                     </div>
 
 
 
                     <div class="mt-3">
                         <label for="dateInput" class="form-label">Date</label>
-                        <input type="date" id="dateInput" required="required">
+                        <input type="date" id="dateInput" class="form-control" required="required">
                     </div>
 
                     <div class="mt-3">
                         <label for="startTimeInput" class="form-label">Start Time</label>
-                        <input type="time" id="startTimeInput" name="startTime" required="required">
+                        <input type="time" class="form-control" id="startTimeInput" name="startTime" required="required">
                     </div>
 
 
 
                     <div class="mt-3">
                         <label for="startTimeInputOffset" class="form-label">Start Time Offset</label>
-                        <input type="text" id="startTimeInputOffset" name="startTimeOffset" placeholder="-00:00:00">
+                        <input type="text" id="startTimeInputOffset" class="form-control" name="startTimeOffset" placeholder="-00:00:00">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid time in the format of "-hh:mm:ss"
+                        </div>
                     </div>
+
 
                     <div class="mt-3">
                         <label for="eventLengthInput" class="form-label">Event Length</label>
-                        <input type="text" id="eventLengthInput" name="eventLengthInput" placeholder="00:00:00">
+                        <input type="text" id="eventLengthInput"  class="form-control" name="eventLengthInput" placeholder="00:00:00" required="required">
+                        <div class="invalid-feedback">
+                            Please enter a valid time in the format of "hh:mm:ss".
+                        </div>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
                     </div>
+
 
                     <div class="mt-3 mx-auto">
                         <button type="submit" class="btn btn-primary" id="submitEvent" form="eventForm">Submit</button>

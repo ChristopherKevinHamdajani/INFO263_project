@@ -48,20 +48,19 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             }
 
             function returnOnOrOff(number){
-                console.log(number)
-                if (number === 0){
-                    return "off"
+                if (number === "0"){
+                    return "Off"
                 } else {
-                    return "on"
+                    return "On"
                 }
             }
 
             function createEventActionsEdit(i,actionId, eventId, timeOffset, clusterId, activate){
                 return "<div class='container mt-2 mb-2 col-5 ' id='editItemAction'><form id='formActionId" + actionId + "'class='formActionChange'>" +
                     "<div class='row'><p class='col-4 mx-auto'>Action Id:" + actionId + "</p></div>" +
-                    "<div class='row'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset" + i + "'></div>" +
-                    "<div class='row'><p class='col-6'>Cluster</p><select name='clusterSelect' class='col-5' id=selector" + actionId + "></select></div>" +
-                    "<div class='row'><p class='col-6'>Cluster State at time offset</p><p class='col-6'>" + returnOnOrOff(activate) + "</p></div>" +
+                    "<div class='row mb-1'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset" + i + "'></div>" +
+                    "<div class='row mb-1'><p class='col-6'>Cluster</p><select name='clusterSelect' class='col-5' id=selector" + actionId + "></select></div>" +
+                    "<div class='row mb-1'><p class='col-6'>Cluster State</p><p class='editPara  col-3'>" + returnOnOrOff(activate) + "</p></div>" +
                     "<div class='row'><button type='submit' for='formActionId" + actionId + "' id=" + actionId + " class='btn mb-2 col-6 mx-auto btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='" + actionId + "' name='actionId'></div>" +
                     "</form></div>";
             }
