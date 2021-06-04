@@ -2818,8 +2818,6 @@ CREATE TABLE `vw_front_event` (
 -- Stand-in structure for view `vw_front_group_client`
 -- (See below for the actual view)
 --
-CREATE TABLE `vw_front_group_client` (
-);
 
 -- --------------------------------------------------------
 
