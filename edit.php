@@ -56,10 +56,25 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             }
 
             function createEventActionsEdit(i,actionId, eventId, timeOffset, clusterId, activate){
-                return "<div class='container mt-2 mb-2 col-5 ' id='editItemAction'><form id='formActionId" + actionId + "'class='formActionChange'>" +
-                    "<div class='row'><p class='col-4 mx-auto'>Action Id:" + actionId + "</p></div>" +
-                    "<div class='row mb-1'><label class='col-6'>Time Offset</label><input name='timeOffset' class='col-5' id='timeOffset" + i + "'></div>" +
-                    "<div class='row mb-1'><p class='col-6'>Cluster</p><select name='clusterSelect' class='col-5' id=selector" + actionId + "></select></div>" +
+                return "<div class='container mt-2 mb-2 col-5 ' id='editItemAction'>" +
+                    "<form id='formActionId" + actionId + "' class='formActionChange' novalidate>" +
+                    "<div class='row actionIdP' ><p class='col-4 mx-auto '>Action Id: " + actionId + "</p></div>" +
+                    "<div class='row mb-1 align-items-center'>" +
+                    "   <div class='col-auto'>" +
+                    "       <label for='timeOffset"+ i +"' class='col-form-label '>Time Offset</label>" +
+                    "   </div>" +
+                    "   <div>" +
+                    "       <input name='timeOffset' class='col-auto form-control ' id='timeOffset" + i + "'>" +
+                    "   </div>" +
+                    "</div>" +
+                    "<div class='row mb-1'>" +
+                        "<div>" +
+                            "<label for='selector"+ actionId +"' class='col-6'>Cluster</label>" +
+                        "</div>" +
+                        "<div>" +
+                            "<select name='clusterSelect' class='col-5 form-control' id=selector" + actionId + "></select>" +
+                        "</div>" +
+                    "</div>" +
                     "<div class='row mb-1'><p class='col-6'>Cluster State</p><p class='editPara  col-3'>" + returnOnOrOff(activate) + "</p></div>" +
                     "<div class='row'><button type='submit' for='formActionId" + actionId + "' id=" + actionId + " class='btn mb-2 col-6 mx-auto btn-primary actionIdChangeButton'>Change</button><input type='hidden' value='" + actionId + "' name='actionId'></div>" +
                     "</form></div>";
@@ -104,8 +119,6 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
         </script>
 
     </div>
-</div>
-
 
 
 </body>
