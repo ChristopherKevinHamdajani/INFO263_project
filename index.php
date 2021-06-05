@@ -62,13 +62,12 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             <div class="col-5">
                 <label for="endDate" class="form-text">End Date</label>
                 <input style="width: " class=" form-control" type="date" id="endDate">
-                <div class="form-text">Enter just a End Date to see events from today to End Date.</div>
-
+                <div class="form-text">Enter a Start Date and End Date to filter events between dates.</div>
             </div>
 
-            <div class="col-2 align-self-end ">
+            <div class="col-2 align-self-center">
                 <button id="searchDateButton" class="col-12  btn-sm subtleShadow btn btn-primary">Search</button>
-                <div class="form-text">Enter a Start Date and End Date to filter events between dates.</div>
+
             </div>
 
         </div>
@@ -76,13 +75,14 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             <div class="col" id="mainTable">
             </div>
         </div>
+        <div id="footer" class="subtleShadow">
+        </div>
 
 
 
 
     </div>
 
-</div>
 
 
 
