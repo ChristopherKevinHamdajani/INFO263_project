@@ -263,10 +263,23 @@ svg{
 
 
 
+.completedText{
+    color: rgba(69, 157, 103, 0.8);
+
+}
+
+.upcomingText{
+    color: rgba(69, 123, 157, 0.8);
+}
+
+.currentlyText{
+    color: rgba(248, 150, 30, 0.8);
+}
 
 
-
-
+.completedText, .upcomingText, .currentlyText{
+    font-family: 'Roboto Condensed', sans-serif;
+}
 
 
 

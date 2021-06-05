@@ -3,9 +3,16 @@ let completedEvents = [];
 let upcomingEvents = [];
 let allEvents = [];
 let eventsRightNow = [];
+let completedText = "<div class='completedText'>Completed</div>";
+let upcomingText = "<div class='upcomingText'>Upcoming</div>";
+let currentText = "<div class='currentlyText'>Currently</div>"
 
 /** Everything JSGrid related http://js-grid.com/docs/ **/
 
+/**
+ * The fields for the table on the index page.
+ * See JSGrid documentation.
+ */
 let tableFields = [
     {name: "event_id", title: "Id", width:50, type: "number"},
     {name:"event_name", title: "Name", type: "text", width: 200},
@@ -14,45 +21,62 @@ let tableFields = [
     {name:"date", title:"Date", type:"text", width:70},
     {name:"time", title: "Start Time", type: "text", align: "right"},
     {name:"finish_time", title:"Finish Time", type:"text", align: "right"},
-    {name:"status", title:"Status", type:"text"},
+    {name:"status", title:"Status", type:"text", align: "center"},
     {title:"Control", type: "control", editButton: false}
 ];
+
+
+
+
 
 
 
 /****************** Document Listeners ******************/
 
 
-
-
+/**
+ * Runs when a keypress is registered in the searchbar.
+ */
 $(document).on('keypress', '#searchBar',null, function(){
     searchBarInput();
 });
 
+/**
+ * When anywhere on the body is clicked, if the searchbar results are on show this will make them hidden with Jquery slideUp method.
+ */
 $(document).on('click', 'body', null, function() {
-    if(!$('#searchResults').hidden){
+    if(!$('#searchResults').hidden){ // If SearchResults not hidden.
         $('#searchResults').slideUp()
     }
 })
 
 
+/**
+ * When a user clicks on any of the search results, this runs.
+ * It populates the table with all events that have the same id.
+ */
 $(document).on('click', '.searchListItem', null, function(){
     let event_name = this['id'];
     let command = {'command' : 'getEventsThatMatchName', 'eventName': event_name};
-
     $.post('server.php', command, function(data){
         let obj = JSON.parse(data)
         createTable(obj, tableFields)
     })
-
 })
 
 
-
+/**
+ * When user clicks on "All Events" button on the index page.
+ */
 $(document).on('click', '#allEventsButton',null, function(){
     displayAllEvents()
 })
 
+
+/**
+ * When user clicks on the search button on the index page.
+ * Grabs the values from the two date inputs and hands them off to searchDate function.
+ */
 $(document).on('click', '#searchDateButton', function (){
     let startDate = $("#startDate").val()
     let endDate = $("#endDate").val()
@@ -60,63 +84,70 @@ $(document).on('click', '#searchDateButton', function (){
 })
 
 
+/**
+ * When user clicks on "Upcoming Events" button.
+ * Creates a table from the "upcomingEvents" array.
+ */
 $(document).on('click', '#upcomingEventsButton',null, function(){
-    //let date = new Date()
-    //let month = date.getMonth() + 1;
-    //let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
-    //let command = {'command': 'getEventsOnDateToDate', 'startDate': dateObj, 'endDate': "2100-03-20"};
-//
-    //$.post('server.php', command, function(data){
-    //    let obj = JSON.parse(data)
-    //    createTable(obj, tableFields)
-    //})
-
     createTable(upcomingEvents, tableFields)
 
 })
 
+/**
+ * When user clicks on "Completed Events" button.
+ * Creates a table from the "completedEvents" array.
+ */
 $(document).on('click', '#completedEvents', null,function() {
-   //let date = new Date()
-   //let month = date.getMonth() + 1;
-   //let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
-   //let command = {'command': 'getEventsOnDateToDate', 'startDate': "1999-01-01", 'endDate': dateObj};
-
-   //$.post('server.php', command, function (data) {
-   //    let obj = JSON.parse(data)
-   //    createTable(obj, tableFields)
-   //})
     createTable(completedEvents, tableFields)
 })
 
+/**
+ * When user clicks on "Current Events" button.
+ * Creates a table from the "eventsRightNow" array.
+ */
 $(document).on('click', '#currentlyHappening',null, function(){
-
         createTable(eventsRightNow, tableFields)
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /****************** Functions ******************/
 
 /**
- * Gets only the event that are activating, doesnt count labs as events.
+ * Gets only the clusters (Known as Clients) that are activating, as in the events that have a cluster(client) that has a 1 in the activate column.
+ * Doesnt count lab clusters in this.
  */
 function getOnlyEventActivation(data){
-    let dataToPrint = [];
-    for(let x = 0; x < data.length; x++){
-        if (data[x]['cluster_name'] !== "Labs" && data[x]['activate'] === "1"){
+    let dataToPrint = []; // The array to return.
+    for(let x = 0; x < data.length; x++){ // Goes through each item in data.
+        if (data[x]['cluster_name'] !== "Labs" && data[x]['activate'] === "1"){ // Checks that event's cluster is activating and isn't a "Labs".
             let event = data[x];
             for(let i = 0; i < data.length; i++) {
-
-                if (data[i]['cluster_name'] === event['cluster_name'] && data[i]['date'] === event['date'] && data[i]['activate'] === "0" && data[i]['machine_group'] === event['machine_group']){
-                    event["finish_time"] = data[i]["time"];
-                    data.splice(i,1)
-                    i = data.length;
+                if (data[i]['cluster_name'] === event['cluster_name'] && data[i]['date'] === event['date'] && data[i]['activate'] === "0" && data[i]['machine_group'] === event['machine_group']){ //Finds the matching activation pair (Checks if everything is the same as above, but with 0 instead of 1 in activation)
+                    event["finish_time"] = data[i]["time"]; // Adds a finish_time to the object.
+                    data.splice(i,1) // Because its found a match, removes this object from data array so that it can't be matched again.
+                    i = data.length; // Because its found, ends loop.
                 }
 
             }
             dataToPrint.push(data[x])
         }
     }
-
     return dataToPrint;
 }
 
@@ -126,13 +157,13 @@ function getOnlyEventActivation(data){
  * @param fields The fields for the table.
  */
 function createTable(data, fields){
-    obj = getOnlyEventActivation(data)
+    let obj = getOnlyEventActivation(data)
     for(let i = 0; i < obj.length; i++){
         obj[i] = getStatus(obj[i]);
     }
 
     $("#mainTable").jsGrid({
-        width: "90%",
+        width: "100%",
         height: "700px",
         inserting: false,
         editing: false,
@@ -140,9 +171,9 @@ function createTable(data, fields){
         paging: true,
         data: obj,
         fields: fields,
-        noDataContent: "No Events on this day/period",
+        noDataContent: "No Events to display.", // The text to display if no event is being displayed.
 
-        onItemDeleting: function(object){
+        onItemDeleting: function(object){ // When the red rubbish icon is clicked, this runs.
             let eventId = object.item["event_id"]
             let command = {"command":"delete","event_id":eventId}
             $.post('server.php', command, function(data){
@@ -155,12 +186,17 @@ function createTable(data, fields){
 
 
         },
-        rowClick: function(args){
+        rowClick: function(args){ // When the user clicks on a row this runs.
             linkToEditPage(args)
         }
 
 
     })
+
+    /**
+     * Moves on to the edit window.
+     * @param args
+     */
     function linkToEditPage(args){
         window.location.replace("edit.php?date="+args.item["date"]+"&eventId=" + args.item["event_id"] + "&eventName=" + args.item["event_name"])
     }
@@ -170,60 +206,43 @@ function createTable(data, fields){
 /**
  * Displays all the events, outputs to the createTable function
  */
-function displayAllEvents(){
+function displayAllEvents(){ // Runs when user clicks "All Events" button.
     let command = {'command' : "getEvents"}
     $.post('server.php', command, function(data){
         let obj = JSON.parse(data)
-       //obj = getOnlyEventActivation(obj)
-       //for(let i = 0; i < obj.length; i++){
-       //    obj[i] = getStatus(obj[i]);
-       //}
-        //allEvents = obj;
         createTable(obj, tableFields)
     })
 }
 
+/**
+ * Sets the status for event object passed to it.
+ * @param obj The event object.
+ * @returns {*} Returns the event object with status added.
+ */
 function getStatus(obj){
-    let dateOfEvent = new Date(obj['date']+'T'+obj['time']) //Creates a date object of object
-    let currentDate = new Date();
-    let eventDateEndTime = new Date(obj['date']+'T'+obj['finish_time'])
+    let dateOfEvent = new Date(obj['date']+'T'+obj['time']) //Creates a date/time object from the "Event" object. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+    let currentDate = new Date(); // Creates the current date/time object.
+    let eventDateEndTime = new Date(obj['date']+'T'+obj['finish_time']) // Creates a date/time object using the events finish time.
 
-    if (currentDate.getFullYear() > dateOfEvent.getFullYear()) {
-        obj['status'] = "Completed";
-    } else if(currentDate.getFullYear() < dateOfEvent.getFullYear()){
-        obj['status'] = "Upcoming"
-    } else if(currentDate.getMonth() > dateOfEvent.getMonth()){ // If it gets to this point they must have the same year
-        obj['status'] = "Completed";
-    } else if (currentDate.getMonth() < dateOfEvent.getMonth()){
-        obj['status'] = "Upcoming";
-    }else if (currentDate.getDate() > dateOfEvent.getDate()){
-        obj['status'] = "Completed";
-    } else if (currentDate.getDate() < dateOfEvent.getDate()){
-        obj['status'] = "Upcoming";
-    } else if (currentDate.getDate() === dateOfEvent.getDate()) { // Event must be today
-
-        if (currentDate.getHours() >= dateOfEvent.getHours() && currentDate.getHours() <= eventDateEndTime.getHours()) { // Then we must be within event hours.
-
-            if (currentDate.getHours() === dateOfEvent.getHours()) {
-                if (currentDate.getMinutes() >= dateOfEvent.getMinutes()) {
-                    obj['status'] = "Current";
-                }
-            } else if (currentDate.getHours() === eventDateEndTime.getHours()) {
-                if (currentDate.getMinutes() > eventDateEndTime.getMinutes()) {
-                    obj['status'] = "Completed";
-                } else {
-                    obj['status'] = "Current"
-                }
-
-
-
-            } else {
-                obj['status'] = "Current"
-            }
-        } else {
-            obj['status'] = "Upcoming"
-        }
+    if (currentDate.getTime() > dateOfEvent.getTime()){
+        obj['status'] = completedText;
+    } else if (currentDate.getTime() < dateOfEvent.getTime()){
+        obj['status']  = upcomingText;
     }
+
+     if (currentDate.getDate() === dateOfEvent.getDate() && currentDate.getFullYear() == dateOfEvent.getFullYear() && currentDate.getMonth() == dateOfEvent.getMonth()) { // If Event's date is the same as today's date, this checks that if its currently happening.
+        if (currentDate.getHours() >= dateOfEvent.getHours() && currentDate.getHours() <= eventDateEndTime.getHours()) { // Then we must be within event hours, only need to check that it isn't the same as the finish time hour, but past the finish time minutes.
+            if (currentDate.getHours() == eventDateEndTime.getHours()) {
+                if (currentDate.getMinutes() < eventDateEndTime.getMinutes()) {
+                    obj['status'] = currentText;
+                } else {
+                    obj['status'] = completedText;
+                }
+            } else {
+                obj['status'] = currentText;
+            }
+        }
+     }
     return obj;
 
 }
@@ -237,156 +256,26 @@ function populateEventNumbers(){
     let data = {'command' : "getEvents"} // Gets every event.
     $.post('server.php', data ,function (data) {
         let obj = JSON.parse(data)
-        let currentDate = new Date();
-        //allEvents = makeArrayUniqueByEventId(obj)
-        //let eventIdSet = new Set();
-
-        obj = getOnlyEventActivation(obj)
-
-        for (let i = 0; i < obj.length; i++) { // Loops over every object and gets status
-                allEvents.push(obj[i])
-                obj[i] = getStatus(obj[i])
-                if (obj[i]['status'] === 'Completed'){
+        obj = getOnlyEventActivation(obj) // Runs the array (Which is every event) through the function to get only the events that are activating a cluster other than lab.
+        for (let i = 0; i < obj.length; i++) { // Loops over every object.
+            obj[i] = getStatus(obj[i]) // Gets the status of the object (Upcoming, completed
+            allEvents.push(obj[i]) // Pushes object to array that keeps track of all the events.
+                if (obj[i]['status'] === completedText){
                     completedEvents.push(obj[i])
-                } else if(obj[i]['status'] === 'Upcoming'){
+                } else if(obj[i]['status'] === upcomingText){
                     upcomingEvents.push(obj[i])
-                } else if (obj[i]['status'] === 'Current'){
+                } else if (obj[i]['status'] === currentText){
                     eventsRightNow.push(obj[i])
                 }
 
 
         }
-        $("#currentlyHappeningNumber").html(makeArrayUniqueByEventId(eventsRightNow).length)
+        $("#currentlyHappeningNumber").html(makeArrayUniqueByEventId(eventsRightNow).length);
         $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
         $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
         $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
 
-
-
-
-
-
-
-        //for (let i = 0; i < obj.length; i++) { // Loops over every object.
-        //
-        //    //eventIdSet.add(obj[i].event_id) // adds event_id to eventIdSet, compiles list/set of used event_id's
-        //    let dateOfEvent = new Date(obj[i]['date']+'T'+obj[i]['time'])
-        //    //let objYear = obj[i].date.slice(0, 4);
-        //    //let objMonth = obj[i].date.slice(5, 7);
-        //    //let objDate = obj[i].date.slice(8);
-        //    //if (parseInt(objDate[0]) === 0) { // If date = 06, this makes it 6, needed for the Date Object
-        //    //    objDate = objDate[1]
-////
-        //    //}
-        //    //if (parseInt(objMonth[0]) === 0) { // Same as above, but for month.
-        //    //    objMonth = objMonth[1]
-////
-        //    //}
-        //    //objMonth = String(Number(objMonth) -1);
-        //    //if (Number(objMonth) < 10){
-        //    //    objMonth = "0".concat(objMonth)
-        //    //}
-//
-        //    //console.log(dateOfEvent)
-        //    if (currentDate.getFullYear() > dateOfEvent.getFullYear()) {
-        //        obj[i]['status'] = "Completed";
-        //        completedEvents.push(obj[i])
-        //    } else if(currentDate.getMonth() > dateOfEvent.getMonth()){
-        //        obj[i]['status'] = "Completed";
-        //        completedEvents.push(obj[i])
-        //    } else if (currentDate.getDay() > dateOfEvent.getDay()){
-        //        //console.log(currentDate.getHours())
-        //        //console.log(obj[i]['time'])
-        //        //console.log(objYear+"-"+objMonth+"-"+objDate+"T"+obj[i]['time'])
-        //        //console.log(obj[i]['date']+'T'+obj[i]['time'])
-        //        //console.log(new Date(objYear+"-"+objMonth+"-"+objDate+"T"+obj[i]['time']))
-        //        //console.log(currentDate.getTime() < dateOfEvent.getTime())
-        //        obj[i]['status'] = "Completed";
-        //        completedEvents.push(obj[i])
-//
-        //    } else if (currentDate.getDay() <= dateOfEvent.getDay()){
-        //        obj[i]['status'] = "Upcoming";
-        //        upcomingEvents.push(obj[i])
-        //    } else {
-//
-        //        //let eventDateStartTime = dateOfEvent;
-        //        //console.log(obj[i])
-        //        //let eventDateEndTime = new Date(obj[i]['date']+'T'+obj[i]['finish_time'])
-        //        //console.log(eventDateEndTime)
-        //        //console.log(eventDateStartTime)
-        //        //if (currentDate.getHours() >= eventDateStartTime.getHours() && currentDate.getHours() <= eventDateEndTime.getHours()){ // Then we must be within event hours.
-        //        //    eventsRightNow.push(obj[i])
-////
-////
-        //        //} else {
-        //        //    upcomingEvents.push(obj[i])
-        //        //}
-        //    }
-//
-//
-//
-//
-        //}
-        //console.log(upcomingEvents)
-        //let events = getOnlyEventActivation(upcomingEvents);
-        //let todayEvents = [];
-        //for (let x = 0; x < events.length; x++){
-        //    // only use events that are happening today
-        //    let eventDate = new Date(events[x]['date']+'T'+events[x]['time']);
-        //    if (currentDate.getFullYear() === eventDate.getFullYear() && currentDate.getMonth() == eventDate.getMonth() && currentDate.getDate() == eventDate.getDate()){
-        //        todayEvents.push(events[x])
-        //    }
-        //}
-//
-        //console.log(todayEvents)
-        //for (let i = 0; i < todayEvents.length; i++){
-        //    //console.log(data[i])
-//
-        //    let eventDateStartTime = new Date(todayEvents[i]['date']+'T'+todayEvents[i]['time']);
-        //    let eventDateEndTime = new Date(todayEvents[i]['date']+'T'+todayEvents[i]['finish_time'])
-//
-        //    if (currentDate.getHours() >= eventDateStartTime.getHours() && currentDate.getHours() <= eventDateEndTime.getHours()  ){ // Then we must be within event hours.
-        //            if (currentDate.getHours() === eventDateStartTime.getHours()){
-        //                if (currentDate.getMinutes() >= eventDateStartTime.getMinutes()){
-        //                    todayEvents[i]['status'] = "Current";
-        //                    eventsRightNow.push(todayEvents[i])
-        //                }
-        //            } else{
-        //                todayEvents[i]['status'] = "Current";
-        //                eventsRightNow.push(todayEvents[i])
-//
-        //            }
-//
-        //    }
-//
-        //}
-        //console.log(eventsRightNow)
-        //$("#currentlyHappeningNumber").html(makeArrayUniqueByEventId(eventsRightNow).length)
-        //$("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
-        //$('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
-        //$('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
     })
-}
-
-
-
-
-
-/**
- * Checks if an object is in a list.
- * @param obj
- * @param list
- * @returns {boolean}
- */
-function containsObject(obj, list) {
-    let i;
-    for (i = 0; i < list.length; i++) {
-        if (list[i] === obj) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 
@@ -464,6 +353,14 @@ function getAllEventNames(){
 
     return returnArray;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -641,33 +538,14 @@ function searchBarInput(){
  * When the document has loaded, fires off these functions.
  */
 $(document).ready(function(){
+
     getEvents();
     populateEventNumbers()
     populateGroupSelectorDropdown("selectGroup");
     populateEventClusterServerCall("selectEventClusterDropdown");
 
+
 })
-
-
-
-//function viewEvent(){
-//
-//    $.post('server.php', command, function(data){
-//        let obj = JSON.parse(data)
-//        obj.forEach(function(event){
-//            let command = {'command' :'getEventFromId', 'eventId' : event['event_id']};
-//            $.post('server.php', command, function(data){
-//                let obj = JSON.parse(data)
-//                let dateArray = []
-//                obj.forEach(function(event){
-//
-//                })
-//                console.log(obj)
-//            })
-//
-//        })
-//    })
-//}
 
 
 

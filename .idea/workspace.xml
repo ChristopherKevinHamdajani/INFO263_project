@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b35b4278-50ab-4c18-8fcb-65221eedb55e" name="Default Changelist" comment="do a bit editing on authenticate function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/newEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/navbar.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +86,7 @@
       <workItem from="1621542028241" duration="12047000" />
       <workItem from="1621563799896" duration="1343000" />
       <workItem from="1621565297593" duration="3597000" />
-      <workItem from="1622775230363" duration="21577000" />
+      <workItem from="1622775230363" duration="27329000" />
     </task>
     <task id="LOCAL-00001" summary="do a bit editing on authenticate function">
       <created>1622415362299</created>
