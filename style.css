@@ -101,6 +101,44 @@ svg{
 
 
 /* Index Page */
+a{
+    text-decoration: none;
+    color: #f1faee;
+}
+.jsgrid-pager-current-page{
+
+}
+.jsgrid-pager-page{
+
+    color: #f8961e;
+
+}
+
+#footer{
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #212529;
+    border-radius: 5px;
+}
+
+.completedText{
+    color: rgba(69, 157, 103, 0.8);
+
+}
+
+.upcomingText{
+    color: rgba(69, 123, 157, 0.8);
+}
+
+.currentlyText{
+    color: rgba(248, 150, 30, 0.8);
+}
+
+
+.completedText, .upcomingText, .currentlyText{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
 
 #table{
     box-shadow: rgba(0, 0, 0, 0.08) 0 1px 4px;
@@ -260,26 +298,6 @@ svg{
     border-radius: 5px;
 }
 
-
-
-
-.completedText{
-    color: rgba(69, 157, 103, 0.8);
-
-}
-
-.upcomingText{
-    color: rgba(69, 123, 157, 0.8);
-}
-
-.currentlyText{
-    color: rgba(248, 150, 30, 0.8);
-}
-
-
-.completedText, .upcomingText, .currentlyText{
-    font-family: 'Roboto Condensed', sans-serif;
-}
 
 
 

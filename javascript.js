@@ -172,7 +172,7 @@ function createTable(data, fields){
         data: obj,
         fields: fields,
         noDataContent: "No Events to display.", // The text to display if no event is being displayed.
-
+        pagerContainer:$("#footer"),
         onItemDeleting: function(object){ // When the red rubbish icon is clicked, this runs.
             let eventId = object.item["event_id"]
             let command = {"command":"delete","event_id":eventId}

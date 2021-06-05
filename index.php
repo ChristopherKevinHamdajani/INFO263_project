@@ -76,6 +76,8 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
             <div class="col" id="mainTable">
             </div>
         </div>
+        <div id="footer" class="subtleShadow">
+        </div>
 
 
 
