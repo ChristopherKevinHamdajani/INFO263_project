@@ -11,48 +11,71 @@ include "server.php";
     <title>Event Scheduler Login page</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="loginstyle.css">
 
 </head>
-<body id="loginPage">
+<body>
 
+<div class="box shadow p-3 mb-5 bg-white rounded">
+    <div class="container">
+        <div class="img">
+            <img class="logo" src="img/default-monochrome-white.svg" alt="">
+            <img src="img/schedule.svg" alt="">
+        </div>
+        <div class="loginBox">
+            <form class=""
+                  action="login.php"
+                  method="post">
 
-<div id="loginBox" class="d-flex justify-content-center align" style="min-height: 55vh">
-    <form class=""
-          action="login.php"
-          method="post"
-          style="width: 50rem">
-        <h1 class="text-center pb-5 display-4">SCHEDULER</h1>
-        <?php if ($_GET['error']) {?>
-            <div class="alert alert-danger" role="alert">
-                <?=$_GET['error']?>
-            </div>
+                <img class="avatar" src="img/avatar.svg" alt="">
+                <h2 class="text-center">Welcome</h2>
+                <?php if ($_GET['error']) {?>
+                    <div class="alert alert-danger" role="alert">
+                        <?=$_GET['error']?>
+                    </div>
                 <?php } ?>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input type="text" name="username" placeholder="username" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" name="password" placeholder="password" required class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
+                <div class="input-div name focus">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <label for="input" class="form-label">Username</label>
+                        <input type="text" name="username" placeholder="username" required class="form-control text-center" id="input" aria-describedby="emailHelp">
+                    </div>
+                </div>
 
-    </form>
-    <?php
-    if (isset($_POST['username']) && isset($_POST['password'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div>
+                        <i class="fas fa-lock"></i>
+                        <label for="input" class="form-label">Password</label>
+                        <input type="password" name="password" placeholder="password" required class="form-control text-center" id="input">
+                    </div>
+                </div>
 
-        authenticate($username, $password);
-    }
-    ?>
+                <div>
+                    <button type="submit" class="btn">Login</button>
+                </div>
 
+            </form>
+            <?php
+            if (isset($_POST['username']) && isset($_POST['password'])) {
+                $username = $_POST['username'];
+                $password = $_POST['password'];
 
+                authenticate($username, $password);
+            }
+            ?>
+
+        </div>
+    </div>
 </div>
-</body>
+
+
 </body>
 
 </html>
