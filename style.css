@@ -101,6 +101,9 @@ svg{
 
 
 /* Index Page */
+
+
+
 a{
     text-decoration: none;
     color: #f1faee;
@@ -137,6 +140,7 @@ a{
 
 .completedText, .upcomingText, .currentlyText{
     font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
 }
 
 
