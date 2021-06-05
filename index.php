@@ -45,20 +45,30 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                     <button class="col subtleShadow robotoButton homepageButtons completedEvents"  id="completedEvents">Completed Events</button>
                 </div>
             </div>
+            <div class="col " id="currentlyHappeningBox">
+                <div class="container row">
+                    <div class="col innerShadow robotoButton homepageButtonNumber currentlyHappening" id="currentlyHappeningNumber">-</div>
+                    <button class="col subtleShadow robotoButton homepageButtons currentlyHappening"  id="currentlyHappening">Current Events</button>
+                </div>
+            </div>
         </div>
         <div id="searchFor" class="row p-2">
-            <p class="form-text" >Enter just a Start Date to see a single days events. Enter just a End Date to see events from today to End Date. Enter a Start Date and End Date to filter events between dates.</p>
-            <div class="col-5 ">
 
-                <label for="startDate" class="col-2">Start Date</label>
-                <input class="col-9" type="date" id="startDate">
+            <div class="col-5">
+                <label for="startDate" class="form-text">Start Date</label>
+                <input class="form-control" type="date" id="startDate">
+                <div class="form-text">Enter just a Start Date to see a single days events.</div>
             </div>
-            <div class="col-4">
-                <label for="endDate" class="col-2">End Date</label>
-                <input class="col-9" type="date" id="endDate">
+            <div class="col-5">
+                <label for="endDate" class="form-text">End Date</label>
+                <input style="width: " class=" form-control" type="date" id="endDate">
+                <div class="form-text">Enter just a End Date to see events from today to End Date.</div>
+
             </div>
-            <div class="col-2">
-                <button id="searchDateButton" class="col-12 btn-sm subtleShadow btn btn-primary">Go</button>
+
+            <div class="col-2 align-self-end ">
+                <button id="searchDateButton" class="col-12  btn-sm subtleShadow btn btn-primary">Search</button>
+                <div class="form-text">Enter a Start Date and End Date to filter events between dates.</div>
             </div>
 
         </div>

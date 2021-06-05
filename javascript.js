@@ -2,55 +2,81 @@ eventNameArray = getAllEventNames();
 let completedEvents = [];
 let upcomingEvents = [];
 let allEvents = [];
+let eventsRightNow = [];
+let completedText = "<div class='completedText'>Completed</div>";
+let upcomingText = "<div class='upcomingText'>Upcoming</div>";
+let currentText = "<div class='currentlyText'>Currently</div>"
 
 /** Everything JSGrid related http://js-grid.com/docs/ **/
 
+/**
+ * The fields for the table on the index page.
+ * See JSGrid documentation.
+ */
 let tableFields = [
     {name: "event_id", title: "Id", width:50, type: "number"},
     {name:"event_name", title: "Name", type: "text", width: 200},
     {name: "cluster_name", title: "Client Configuration", type:"text", align: "center"},
     {name: "machine_group", title: "Clients", type: "text", align: "center"},
     {name:"date", title:"Date", type:"text", width:70},
-    {name:"time", title: "Time", type: "text", align: "right"},
-    {name:"activate", title: "Activate", width: 50, type: "number"},
+    {name:"time", title: "Start Time", type: "text", align: "right"},
+    {name:"finish_time", title:"Finish Time", type:"text", align: "right"},
+    {name:"status", title:"Status", type:"text", align: "center"},
     {title:"Control", type: "control", editButton: false}
 ];
+
+
+
+
 
 
 
 /****************** Document Listeners ******************/
 
 
-
-
+/**
+ * Runs when a keypress is registered in the searchbar.
+ */
 $(document).on('keypress', '#searchBar',null, function(){
     searchBarInput();
 });
 
+/**
+ * When anywhere on the body is clicked, if the searchbar results are on show this will make them hidden with Jquery slideUp method.
+ */
 $(document).on('click', 'body', null, function() {
-    if(!$('#searchResults').hidden){
+    if(!$('#searchResults').hidden){ // If SearchResults not hidden.
         $('#searchResults').slideUp()
     }
 })
 
 
+/**
+ * When a user clicks on any of the search results, this runs.
+ * It populates the table with all events that have the same id.
+ */
 $(document).on('click', '.searchListItem', null, function(){
     let event_name = this['id'];
     let command = {'command' : 'getEventsThatMatchName', 'eventName': event_name};
-
     $.post('server.php', command, function(data){
         let obj = JSON.parse(data)
         createTable(obj, tableFields)
     })
-    reloadEventTable = true;
 })
 
 
-
+/**
+ * When user clicks on "All Events" button on the index page.
+ */
 $(document).on('click', '#allEventsButton',null, function(){
     displayAllEvents()
 })
 
+
+/**
+ * When user clicks on the search button on the index page.
+ * Grabs the values from the two date inputs and hands them off to searchDate function.
+ */
 $(document).on('click', '#searchDateButton', function (){
     let startDate = $("#startDate").val()
     let endDate = $("#endDate").val()
@@ -58,34 +84,72 @@ $(document).on('click', '#searchDateButton', function (){
 })
 
 
+/**
+ * When user clicks on "Upcoming Events" button.
+ * Creates a table from the "upcomingEvents" array.
+ */
 $(document).on('click', '#upcomingEventsButton',null, function(){
-    let date = new Date()
-    let month = date.getMonth() + 1;
-    let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
-    let command = {'command': 'getEventsOnDateToDate', 'startDate': dateObj, 'endDate': "2100-03-20"};
+    createTable(upcomingEvents, tableFields)
 
-    $.post('server.php', command, function(data){
-        let obj = JSON.parse(data)
-        createTable(obj, tableFields)
-    })
 })
 
+/**
+ * When user clicks on "Completed Events" button.
+ * Creates a table from the "completedEvents" array.
+ */
 $(document).on('click', '#completedEvents', null,function() {
-    let date = new Date()
-    let month = date.getMonth() + 1;
-    let dateObj = date.getFullYear() + "-0" + month + "-" + date.getDate()
-    let command = {'command': 'getEventsOnDateToDate', 'startDate': "1999-01-01", 'endDate': dateObj};
-
-    $.post('server.php', command, function (data) {
-        let obj = JSON.parse(data)
-        createTable(obj, tableFields)
-    })
+    createTable(completedEvents, tableFields)
 })
+
+/**
+ * When user clicks on "Current Events" button.
+ * Creates a table from the "eventsRightNow" array.
+ */
+$(document).on('click', '#currentlyHappening',null, function(){
+        createTable(eventsRightNow, tableFields)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /****************** Functions ******************/
 
+/**
+ * Gets only the clusters (Known as Clients) that are activating, as in the events that have a cluster(client) that has a 1 in the activate column.
+ * Doesnt count lab clusters in this.
+ */
+function getOnlyEventActivation(data){
+    let dataToPrint = []; // The array to return.
+    for(let x = 0; x < data.length; x++){ // Goes through each item in data.
+        if (data[x]['cluster_name'] !== "Labs" && data[x]['activate'] === "1"){ // Checks that event's cluster is activating and isn't a "Labs".
+            let event = data[x];
+            for(let i = 0; i < data.length; i++) {
+                if (data[i]['cluster_name'] === event['cluster_name'] && data[i]['date'] === event['date'] && data[i]['activate'] === "0" && data[i]['machine_group'] === event['machine_group']){ //Finds the matching activation pair (Checks if everything is the same as above, but with 0 instead of 1 in activation)
+                    event["finish_time"] = data[i]["time"]; // Adds a finish_time to the object.
+                    data.splice(i,1) // Because its found a match, removes this object from data array so that it can't be matched again.
+                    i = data.length; // Because its found, ends loop.
+                }
 
+            }
+            dataToPrint.push(data[x])
+        }
+    }
+    return dataToPrint;
+}
 
 /**
  * Creates the table displayed on the index page using JSGrid.
@@ -93,18 +157,23 @@ $(document).on('click', '#completedEvents', null,function() {
  * @param fields The fields for the table.
  */
 function createTable(data, fields){
+    let obj = getOnlyEventActivation(data)
+    for(let i = 0; i < obj.length; i++){
+        obj[i] = getStatus(obj[i]);
+    }
+
     $("#mainTable").jsGrid({
-        width: "90%",
+        width: "100%",
         height: "700px",
         inserting: false,
         editing: false,
         sorting: true,
         paging: true,
-        data: data,
+        data: obj,
         fields: fields,
-        noDataContent: "No Events on this day/period",
+        noDataContent: "No Events to display.", // The text to display if no event is being displayed.
 
-        onItemDeleting: function(object){
+        onItemDeleting: function(object){ // When the red rubbish icon is clicked, this runs.
             let eventId = object.item["event_id"]
             let command = {"command":"delete","event_id":eventId}
             $.post('server.php', command, function(data){
@@ -117,21 +186,27 @@ function createTable(data, fields){
 
 
         },
-        rowClick: function(args){
+        rowClick: function(args){ // When the user clicks on a row this runs.
             linkToEditPage(args)
         }
 
 
     })
+
+    /**
+     * Moves on to the edit window.
+     * @param args
+     */
     function linkToEditPage(args){
         window.location.replace("edit.php?date="+args.item["date"]+"&eventId=" + args.item["event_id"] + "&eventName=" + args.item["event_name"])
     }
+
 }
 
 /**
  * Displays all the events, outputs to the createTable function
  */
-function displayAllEvents(){
+function displayAllEvents(){ // Runs when user clicks "All Events" button.
     let command = {'command' : "getEvents"}
     $.post('server.php', command, function(data){
         let obj = JSON.parse(data)
@@ -139,53 +214,70 @@ function displayAllEvents(){
     })
 }
 
+/**
+ * Sets the status for event object passed to it.
+ * @param obj The event object.
+ * @returns {*} Returns the event object with status added.
+ */
+function getStatus(obj){
+    let dateOfEvent = new Date(obj['date']+'T'+obj['time']) //Creates a date/time object from the "Event" object. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+    let currentDate = new Date(); // Creates the current date/time object.
+    let eventDateEndTime = new Date(obj['date']+'T'+obj['finish_time']) // Creates a date/time object using the events finish time.
+
+    if (currentDate.getTime() > dateOfEvent.getTime()){
+        obj['status'] = completedText;
+    } else if (currentDate.getTime() < dateOfEvent.getTime()){
+        obj['status']  = upcomingText;
+    }
+
+     if (currentDate.getDate() === dateOfEvent.getDate() && currentDate.getFullYear() == dateOfEvent.getFullYear() && currentDate.getMonth() == dateOfEvent.getMonth()) { // If Event's date is the same as today's date, this checks that if its currently happening.
+        if (currentDate.getHours() >= dateOfEvent.getHours() && currentDate.getHours() <= eventDateEndTime.getHours()) { // Then we must be within event hours, only need to check that it isn't the same as the finish time hour, but past the finish time minutes.
+            if (currentDate.getHours() == eventDateEndTime.getHours()) {
+                if (currentDate.getMinutes() < eventDateEndTime.getMinutes()) {
+                    obj['status'] = currentText;
+                } else {
+                    obj['status'] = completedText;
+                }
+            } else {
+                obj['status'] = currentText;
+            }
+        }
+     }
+    return obj;
+
+}
+
+
 
 /**
  * Updates the event numbers on the main page.
  */
 function populateEventNumbers(){
-    let data = {'command' : "getEvents"}
+    let data = {'command' : "getEvents"} // Gets every event.
     $.post('server.php', data ,function (data) {
         let obj = JSON.parse(data)
-        let currentDate = new Date();
-        allEvents = makeArrayUniqueByEventId(obj)
-        let eventIdSet = new Set();
+        obj = getOnlyEventActivation(obj) // Runs the array (Which is every event) through the function to get only the events that are activating a cluster other than lab.
+        for (let i = 0; i < obj.length; i++) { // Loops over every object.
+            obj[i] = getStatus(obj[i]) // Gets the status of the object (Upcoming, completed
+            allEvents.push(obj[i]) // Pushes object to array that keeps track of all the events.
+                if (obj[i]['status'] === completedText){
+                    completedEvents.push(obj[i])
+                } else if(obj[i]['status'] === upcomingText){
+                    upcomingEvents.push(obj[i])
+                } else if (obj[i]['status'] === currentText){
+                    eventsRightNow.push(obj[i])
+                }
 
 
-
-        for (let i = 0; i < obj.length; i++) {
-            eventIdSet.add(obj[i].event_id) // adds event_id to eventIdSet, compiles list/set of used event_id's
-
-            let objYear = obj[i].date.slice(0, 4);
-            let objMonth = obj[i].date.slice(5, 7);
-            let objDate = obj[i].date.slice(8);
-            if (parseInt(objDate[0]) === 0) { // If date = 06, this makes it 6, needed for the Date Object
-                objDate = objDate[1]
-
-            }
-            if (parseInt(objMonth[0]) === 0) { // Same as above, but for month.
-                objMonth = objMonth[1]
-
-            }
-
-            new Date()
-            let dateOfEvent = new Date(objYear, objMonth, objDate)
-            if (currentDate.getFullYear() > dateOfEvent.getFullYear()) {
-                completedEvents.push(obj[i])
-            } else if(currentDate.getMonth() > dateOfEvent.getMonth()){
-                completedEvents.push(obj[i])
-            } else if (currentDate.getDay() <= dateOfEvent.getDay()){
-                upcomingEvents.push(obj[i])
-
-            }
-
-            $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
-            $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
-            $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
         }
+        $("#currentlyHappeningNumber").html(makeArrayUniqueByEventId(eventsRightNow).length);
+        $("#completedEventsNumber").html(makeArrayUniqueByEventId(completedEvents).length);
+        $('#upcomingEventsNumber').html(makeArrayUniqueByEventId(upcomingEvents).length);
+        $('#allEventNumber').html(makeArrayUniqueByEventId(allEvents).length);
 
     })
 }
+
 
 /**
  * Makes incoming array into a unique set of event_id
@@ -265,6 +357,14 @@ function getAllEventNames(){
 
 
 
+
+
+
+
+
+
+
+
 /****************** Create Event Functions ******************/
 
 
@@ -307,7 +407,6 @@ function populateGroupSelectorDropdown(select){
  */
 $(document).on("submit", '#eventForm', null, function(event){
     event.preventDefault()
-    console.log("Submitted")
     let date = $("#dateInput").val()
     let startTime = $("#startTimeInput").val()
     let eventLength = $("#eventLengthInput").val()
@@ -316,17 +415,61 @@ $(document).on("submit", '#eventForm', null, function(event){
 
     let machineGroups = $("#selectGroup").val();
     let clusterId = $("#selectEventClusterDropdown").val();
-
+    console.log("Button pressed")
 
     let command = {'command': "submitEvent","cluster_id": clusterId, "event_id": event_id, "eventLength" : eventLength, "date" : date, "time" : startTime, "offset": startTimeOffset, "machineGroups": machineGroups}
     $.post("server.php", command, function(){
         window.location.replace("index.php");
-        alert("Event created succesfully.")
+        alert("Event created successfully.")
     })
-
-
-
 })
+
+
+/**
+ * Adds the valid class to the object.
+ * @param id The id of the object
+ */
+function classIsValid(id){
+    $(id).removeClass('is-invalid')
+    $(id).addClass('is-valid')
+    $("#submitEvent").attr("disabled",false);
+}
+
+/**
+ * Adds the invalid class to the object.
+ * @param id the id of the object.
+ */
+function classIsInvalid(id){
+    $(id).removeClass('is-valid')
+    $(id).addClass('is-invalid')
+    $("#submitEvent").attr("disabled",true);
+}
+
+$(document).on("input", '#startTimeInputOffset', null, function(element){
+    let id = '#startTimeInputOffset'
+    let input = $(id).val()
+    let regexToMatch = new RegExp('(-[0-2][0-4]:[0-5][0-9]:[0-5][0-9])')
+    if(input.length > 9 || regexToMatch.test(input) === false){
+        classIsInvalid(id)
+    } else {
+        classIsValid(id)
+    }
+})
+
+$(document).on("input", '#eventLengthInput', null, function(element){
+    let id = '#eventLengthInput'
+    let input = $(id).val()
+    let regexToMatch = new RegExp('([0-2][0-4]:[0-5][0-9]:[0-5][0-9])')
+    if(input.length > 8 || regexToMatch.test(input) === false){
+        classIsInvalid(id)
+    } else {
+        classIsValid(id)
+    }
+})
+
+
+
+
 
 /**
  * The submit functions for the event name selector.
@@ -337,17 +480,12 @@ $(document).on("submit", "#eventNameForm", null, function(event){
     let command = {'command':'insertEvent', 'data': eventName}
     $.post("server.php", command, function(data){
         let obj = JSON.parse(data)
-        console.log(eventName)
         $("#eventName").text(eventName)
-        console.log(data)
         let eventId = "";
         obj.forEach(function(event){
             eventId = event["event_id"]
         })
-        console.log(eventId)
         $("#hiddenEventId").val(eventId)
-        console.log($("#hiddenEventId").val())
-
         $("#createEventName").slideUp();
         $("#restOfForm").slideDown();
     })
@@ -400,34 +538,14 @@ function searchBarInput(){
  * When the document has loaded, fires off these functions.
  */
 $(document).ready(function(){
-    getEvents();
 
+    getEvents();
     populateEventNumbers()
     populateGroupSelectorDropdown("selectGroup");
     populateEventClusterServerCall("selectEventClusterDropdown");
 
+
 })
-
-
-
-//function viewEvent(){
-//
-//    $.post('server.php', command, function(data){
-//        let obj = JSON.parse(data)
-//        obj.forEach(function(event){
-//            let command = {'command' :'getEventFromId', 'eventId' : event['event_id']};
-//            $.post('server.php', command, function(data){
-//                let obj = JSON.parse(data)
-//                let dateArray = []
-//                obj.forEach(function(event){
-//
-//                })
-//                console.log(obj)
-//            })
-//
-//        })
-//    })
-//}
 
 
 
