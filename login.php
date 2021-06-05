@@ -14,7 +14,7 @@ include "server.php";
     <link rel="stylesheet" href="style.css">
 </head>
 <body id="loginPage">
-<div id="loginBox" class="d-flex justify-content-center align">
+<div id="loginBox" class="d-flex justify-content-center align" style="min-height : 75vh">
     <form class=""
           action="login.php"
           method="post"
@@ -22,7 +22,7 @@ include "server.php";
         <h1 class="text-center pb-5 display-4">LOGIN</h1>
         <?php if ($_GET['error']) {?>
         <div class="alert alert-danger" role="alert">
-            <?=$_GET['error']?>
+            <?=$_GET['error']?></div>
             <?php } ?>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>

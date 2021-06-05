@@ -39,7 +39,7 @@ include ('navbar.php'); // Includes the navbar, so each page has the same navbar
                 </form>
             </div>
             <div id="restOfForm" style="display: none">
-                <form id="eventForm " class="col-8 mx-auto">
+                <form id="eventForm" class="col-8 mx-auto">
                     <h1 id="eventName"></h1>
 
                     <div class="mt-3">
