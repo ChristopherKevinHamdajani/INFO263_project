@@ -238,8 +238,13 @@ function getStatus(obj){
                 } else {
                     obj['status'] = completedText;
                 }
-            } else {
-                obj['status'] = currentText;
+            } else if (currentDate.getHours() === dateOfEvent.getHours()){
+                if (currentDate.getMinutes() < dateOfEvent.getMinutes()){
+                    obj['status'] = upcomingText;
+                } else {
+                    obj['status'] = currentText;
+                }
+
             }
         }
      }
