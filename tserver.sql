@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 03, 2021 at 04:08 AM
+-- Generation Time: Jun 04, 2021 at 01:57 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.11
 
@@ -2778,15 +2778,15 @@ INSERT INTO `user` (`user_id`, `username`, `password`) VALUES
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_display_view` (
-`event_name` varchar(255)
+`activate` int(11) unsigned
 ,`cluster_name` varchar(128)
 ,`date` date
-,`time` time
-,`activate` int(11) unsigned
-,`machine_group` varchar(100)
-,`time_offset` time
 ,`event_id` int(11) unsigned
+,`event_name` varchar(255)
 ,`group_id` int(10) unsigned
+,`machine_group` varchar(100)
+,`time` time
+,`time_offset` time
 );
 
 -- --------------------------------------------------------
@@ -2796,20 +2796,20 @@ CREATE TABLE `vw_display_view` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vw_front_event` (
-`event_name` varchar(255)
-,`cluster_name` varchar(128)
-,`cluster_id` int(11) unsigned
-,`machine_group` varchar(100)
-,`group_id` int(10) unsigned
-,`date` date
-,`time` time
+`action_id` int(11) unsigned
 ,`activate` int(11) unsigned
-,`event_id` int(11) unsigned
-,`action_id` int(11) unsigned
+,`cluster_id` int(11) unsigned
+,`cluster_name` varchar(128)
 ,`daily_id` int(11)
-,`weekly_id` int(11) unsigned
-,`status` int(11)
+,`date` date
 ,`date_ran` timestamp
+,`event_id` int(11) unsigned
+,`event_name` varchar(255)
+,`group_id` int(10) unsigned
+,`machine_group` varchar(100)
+,`status` int(11)
+,`time` time
+,`weekly_id` int(11) unsigned
 );
 
 -- --------------------------------------------------------
@@ -2818,8 +2818,6 @@ CREATE TABLE `vw_front_event` (
 -- Stand-in structure for view `vw_front_group_client`
 -- (See below for the actual view)
 --
-CREATE TABLE `vw_front_group_client` (
-);
 
 -- --------------------------------------------------------
 
